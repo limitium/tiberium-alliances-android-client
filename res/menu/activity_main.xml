@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/item3"
+        android:enabled="true"
+        android:icon="@+drawable/ic_action_copy"
+        android:showAsAction="ifRoom"
+        android:title="item3"
+        android:visible="true">
+
+        <!-- "file" submenu -->
+        <menu>
+            <item
+                android:id="@+id/item1"
+                android:enabled="true"
+                android:icon="@+drawable/ic_action_attach"
+                android:showAsAction="ifRoom"
+                android:title="item1"
+                android:visible="true">
+            </item>
+            <item
+                android:id="@+id/item2"
+                android:enabled="true"
+                android:icon="@+drawable/ic_action_call"
+                android:showAsAction="ifRoom"
+                android:title="item2"
+                android:visible="true">
+            </item>
+        </menu>
+    </item>
+
+</menu><!--
+    <item
+        android:id="@+id/item1"
+        android:enabled="true"
+        android:icon="@+drawable/ic_action_attach"
+        android:showAsAction="ifRoom"
+        android:title="item1"
+        android:visible="true">
+    </item>
+    <item
+        android:id="@+id/item2"
+        android:enabled="true"
+        android:icon="@+drawable/ic_action_call"
+        android:showAsAction="ifRoom"
+        android:title="item2"
+        android:visible="true">
+    </item>
+    <item
+        android:id="@+id/item3"
+        android:enabled="true"
+        android:icon="@+drawable/ic_action_copy"
+        android:showAsAction="ifRoom"
+        android:title="item3"
+        android:visible="true">
+    </item>
+-->
