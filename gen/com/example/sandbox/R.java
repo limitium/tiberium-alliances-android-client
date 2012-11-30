@@ -35,18 +35,21 @@ public final class R {
         public static final int ic_action_user_add=0x7f020015;
         public static final int ic_action_video=0x7f020016;
         public static final int ic_launcher=0x7f020017;
+        public static final int icon_gdi=0x7f020018;
+        public static final int icon_nod=0x7f020019;
     }
     public static final class id {
         public static final int editText1=0x7f070004;
         public static final int editText2=0x7f070005;
         public static final int first_list=0x7f070002;
-        public static final int item1=0x7f070008;
-        public static final int item2=0x7f070009;
-        public static final int item3=0x7f070007;
+        public static final int imageView1=0x7f070006;
+        public static final int item1=0x7f070009;
+        public static final int item2=0x7f07000a;
+        public static final int item3=0x7f070008;
         public static final int lower_linear_layout=0x7f070001;
         public static final int second_list=0x7f070003;
         public static final int some_big_bad_text_view=0x7f070000;
-        public static final int text=0x7f070006;
+        public static final int text=0x7f070007;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

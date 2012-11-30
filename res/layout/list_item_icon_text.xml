@@ -15,14 +15,20 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <ImageView android:id="@+id/imageView1"
+               android:layout_height="50px"
+               android:layout_width="50px"
+               android:src="@drawable/icon_gdi"
+               android:layout_gravity="left"
+               android:layout_weight="0"/>
     <TextView android:id="@+id/text"
-        android:layout_gravity="center_vertical"
-        android:layout_width="0dip"
-        android:layout_weight="1.0"
-        android:layout_height="wrap_content" />
+              android:paddingTop="15px"
+              android:layout_width="0dip"
+              android:layout_weight="1.0"
+              android:text="Server name"
+              android:layout_height="wrap_content"/>
 
 </LinearLayout>

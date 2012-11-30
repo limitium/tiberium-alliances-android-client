@@ -23,6 +23,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.cnc.api.Api;
+import com.cnc.game.Client;
+import com.cnc.game.GameServer;
+import com.cnc.model.Server;
 
 public class MainActivity extends Activity implements
 		LoaderManager.LoaderCallbacks<List<String>> {
@@ -44,9 +48,13 @@ public class MainActivity extends Activity implements
 	public static final String SHARED_PREFERENCES_KEY = "AUTH";
 	public static final String SERVER_NAME_KEY = "SERVER_NAME";
 
+    public Client cnc;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        cnc = new Client(new GameServer(new Api()));
 		setContentView(R.layout.activity_main);
 
 		// Authentication
@@ -118,11 +126,12 @@ public class MainActivity extends Activity implements
 
 	private void showServerDialog() {
 		// List items
+        cnc.updateHash("lworld10@mailinator.com", "qweqwe123");
+        cnc.openSession();
 		ArrayList<String> serversList = new ArrayList<String>();
-		serversList.add("America");
-		serversList.add("Asia");
-		serversList.add("Europe");
-		serversList.add("Russia");
+        for(Server server:cnc.getServers()){
+            serversList.add(server.getName());
+        }
 
 		final CharSequence[] names = serversList
 				.toArray(new CharSequence[serversList.size()]);
