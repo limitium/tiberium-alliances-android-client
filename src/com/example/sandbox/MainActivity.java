@@ -23,408 +23,414 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.cnc.api.Api;
-import com.cnc.game.Client;
 import com.cnc.game.GameServer;
-import com.cnc.model.Server;
 
 public class MainActivity extends Activity implements
-		LoaderManager.LoaderCallbacks<List<String>> {
+        LoaderManager.LoaderCallbacks<List<String>> {
 
-	public final String TAG = "Sandbox";
+    public final String TAG = "Sandbox";
 
-	// This is the Adapter being used to display the list's data.
-	AppListAdapter mFirstAdapter;
-	AppListAdapter mSecondAdapter;
+    // This is the Adapter being used to display the list's data.
+    AppListAdapter mFirstAdapter;
+    AppListAdapter mSecondAdapter;
 
-	// If non-null, this is the current filter the user has provided.
-	String mCurFilter;
+    // If non-null, this is the current filter the user has provided.
+    String mCurFilter;
 
-	ListView mFirstListView;
-	ListView mSecondListView;
+    ListView mFirstListView;
+    ListView mSecondListView;
 
-	public static final String LOGIN_KEY = "LOGIN";
-	public static final String PASSWORD_KEY = "PASSWORD";
-	public static final String SHARED_PREFERENCES_KEY = "AUTH";
-	public static final String SERVER_NAME_KEY = "SERVER_NAME";
+    public static final String LOGIN_KEY = "LOGIN";
+    public static final String PASSWORD_KEY = "PASSWORD";
+    public static final String SHARED_PREFERENCES_KEY = "AUTH";
+    public static final String LAST_HASH_KEY = "LAST_HASH";
+    public static final String LAST_SERVER_ID_KEY = "SERVER_ID";
 
-    public Client cnc;
+    public GameServer gs;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        cnc = new Client(new GameServer(new Api()));
-		setContentView(R.layout.activity_main);
+        gs = new GameServer();
+        gs.setHash("ef4b582f-dee6-4b68-ab68-d5d24be4e68d");
 
-		// Authentication
-		SharedPreferences sharedPref = getSharedPreferences(
-				SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-		String login = sharedPref.getString(LOGIN_KEY, new String());
-		String password = sharedPref.getString(PASSWORD_KEY, new String());
+        setContentView(R.layout.activity_main);
 
-		if (login.isEmpty() || password.isEmpty()) {
-			Log.v(TAG, "Asking for login and password");
-			showAuthDialog();
-		} else {
-			Log.v(TAG, "Login: " + login);
-			Log.v(TAG, "Password: " + password);
-		}
+        // Authentication
+        SharedPreferences sharedPref = getSharedPreferences(
+                SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        String login = sharedPref.getString(LOGIN_KEY, new String());
+        String password = sharedPref.getString(PASSWORD_KEY, new String());
+        String lastHash = sharedPref.getString(LAST_HASH_KEY, new String());
+        int lastServerId = sharedPref.getInt(LAST_HASH_KEY, 0);
 
-		// Server pick
-		showServerDialog();
-
-		// Create an empty adapter we will use to display the loaded data.
-		mFirstAdapter = new AppListAdapter(this);
-		mFirstListView = (ListView) findViewById(R.id.first_list);
-		mFirstListView.setAdapter(mFirstAdapter);
-
-		mSecondAdapter = new AppListAdapter(this);
-		mSecondListView = (ListView) findViewById(R.id.second_list);
-		mSecondListView.setAdapter(mSecondAdapter);
-		
-		TextView textView = (TextView)findViewById(R.id.some_big_bad_text_view);
-		textView.setText("Big text view");
-
-		// Prepare the loader. Either re-connect with an existing one,
-		// or start a new one.
-		getLoaderManager().initLoader(0, null, this);
-		getLoaderManager().initLoader(1, null, this);
-	}
-
-	private void showAuthDialog() {
-		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		LayoutInflater factory = LayoutInflater.from(this);
-		final View textEntryView = factory.inflate(R.layout.alert_dialog, null);
-		alert.setView(textEntryView);
-		alert.setTitle("Enter login and password");
-
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				SharedPreferences sharedPref = getSharedPreferences(
-						MainActivity.SHARED_PREFERENCES_KEY,
-						Context.MODE_PRIVATE);
-
-				final EditText loginInput = (EditText) textEntryView
-						.findViewById(R.id.editText1);
-				final EditText passwordInput = (EditText) textEntryView
-						.findViewById(R.id.editText2);
-
-				String login = loginInput.getText().toString().trim();
-				String password = passwordInput.getText().toString().trim();
-				Toast.makeText(getApplicationContext(),
-						"Login: " + login + "\nPassword: " + password,
-						Toast.LENGTH_SHORT).show();
-				SharedPreferences.Editor editor = sharedPref.edit();
-				editor.putString(MainActivity.LOGIN_KEY, login);
-				editor.putString(MainActivity.PASSWORD_KEY, password);
-				editor.commit();
-			}
-		});
-		alert.show();
-	}
-
-	private void showServerDialog() {
-		// List items
-        cnc.updateHash("lworld10@mailinator.com", "qweqwe123");
-        cnc.openSession();
-		ArrayList<String> serversList = new ArrayList<String>();
-        for(Server server:cnc.getServers()){
-            serversList.add(server.getName());
+        if (login.isEmpty() || password.isEmpty()) {
+            Log.v(TAG, "Asking for login and password");
+            showAuthDialog();
+        } else {
+            Log.v(TAG, "Login: " + login);
+            Log.v(TAG, "Password: " + password);
         }
 
-		final CharSequence[] names = serversList
-				.toArray(new CharSequence[serversList.size()]);
+        // Server pick
+        showServerDialog();
 
-		// Prepare the list dialog box
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Create an empty adapter we will use to display the loaded data.
+        mFirstAdapter = new AppListAdapter(this);
+        mFirstListView = (ListView) findViewById(R.id.first_list);
+        mFirstListView.setAdapter(mFirstAdapter);
 
-		builder.setTitle("Pick server");
+        mSecondAdapter = new AppListAdapter(this);
+        mSecondListView = (ListView) findViewById(R.id.second_list);
+        mSecondListView.setAdapter(mSecondAdapter);
 
-		// Set the list items and assign with the click listener
-		builder.setItems(names, new DialogInterface.OnClickListener() {
-			// Click listener
-			public void onClick(DialogInterface dialog, int item) {
-				String newServerName = names[item].toString();
-				Log.v(TAG, "Setting server: " + newServerName);
-				SharedPreferences sharedPref = getSharedPreferences(
-						SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-				SharedPreferences.Editor editor = sharedPref.edit();
-				editor.putString(SERVER_NAME_KEY, newServerName);
-				editor.commit();
-			}
-		});
-		AlertDialog alert = builder.create();
-		// display dialog box
-		alert.show();
-	}
+        TextView textView = (TextView) findViewById(R.id.some_big_bad_text_view);
+        textView.setText("Big text view");
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
+        // Prepare the loader. Either re-connect with an existing one,
+        // or start a new one.
+        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().initLoader(1, null, this);
+    }
 
-	@Override
-	public Loader<List<String>> onCreateLoader(int id, Bundle args) {
-		// This is called when a new Loader needs to be created. This
-		// sample only has one Loader with no arguments, so it is simple.
-		return new AppListLoader(this);
-	}
+    private void showAuthDialog() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View textEntryView = factory.inflate(R.layout.alert_dialog, null);
+        alert.setView(textEntryView);
+        alert.setTitle("Enter login and password");
 
-	@Override
-	public void onLoadFinished(Loader<List<String>> loader, List<String> data) {
-		Log.v(TAG,
-				"On load finished, in loader: "
-						+ String.valueOf(loader.getId()));
-		int id = loader.getId();
-		
-		if (id == 0) {
-			mFirstAdapter.setData(data);
-		} else if (id == 1) { 
-			List<String> modifiedList = new ArrayList<String>();
-			for (String item : data) {
-				modifiedList.add("Second: " + item);
-			}
-			mSecondAdapter.setData(modifiedList);			
-		}
-	}
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                SharedPreferences sharedPref = getSharedPreferences(
+                        MainActivity.SHARED_PREFERENCES_KEY,
+                        Context.MODE_PRIVATE);
 
-	@Override
-	public void onLoaderReset(Loader<List<String>> loader) {
-		// Clear the data in the adapter.
-		mFirstAdapter.setData(null);
-		mSecondAdapter.setData(null);
-	}
+                final EditText loginInput = (EditText) textEntryView
+                        .findViewById(R.id.editText1);
+                final EditText passwordInput = (EditText) textEntryView
+                        .findViewById(R.id.editText2);
 
-	public static class MyTestContentProvider implements Runnable {
-		Thread myThread;
-		AppListLoader mLoader;
+                String login = loginInput.getText().toString().trim();
+                String password = passwordInput.getText().toString().trim();
+                Toast.makeText(getApplicationContext(),
+                        "Login: " + login + "\nPassword: " + password,
+                        Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(MainActivity.LOGIN_KEY, login);
+                editor.putString(MainActivity.PASSWORD_KEY, password);
+                editor.commit();
+            }
+        });
+        alert.show();
+    }
 
-		public final static String TAG = "MyTestContentProvider";
-		private boolean stopped = false;
+    private void showServerDialog() {
+        // List items
+//        cnc.updateHash("lworld10@mailinator.com", "qweqwe123");
+//        cnc.openSession();
+        ArrayList<String> serversList = new ArrayList<String>();
+        serversList.add("America");
+        serversList.add("Asia");
+        serversList.add("Europe");
+        serversList.add("Russia");
+//        for(Server server:cnc.getServers()){
+//            serversList.add(server.getName());
+//        }
 
-		public MyTestContentProvider(AppListLoader loader) {
-			myThread = new Thread(this);
-			myThread.start();
-			mLoader = loader;
-		}
+        final CharSequence[] names = serversList
+                .toArray(new CharSequence[serversList.size()]);
 
-		public void stopThread() {
-			stopped = true;
-		}
+        // Prepare the list dialog box
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-		public void run() {
-			Random randomGenerator = new Random();
-			int counter = 0;
-			while (!stopped) {
-				int randomInt = randomGenerator.nextInt(20);
-				// Log.v(TAG, "Running, generated: " +
-				// String.valueOf(randomInt));
-				if (randomInt > 15) {
-					Log.v(TAG, "Content changed");
-					counter += 1;
-					if (counter >= 3) {
-						counter = 0;
-					}
-					mLoader.onContentChanged();
-					try {
-						Thread.sleep(5000);
-					} catch (InterruptedException ie) {
-						Log.e(TAG, ie.toString());
-					}
-				}
-			}
-		}
-	}
+        builder.setTitle("Pick server");
 
-	/**
-	 * A custom Loader that loads all of the installed applications.
-	 */
-	public static class AppListLoader extends AsyncTaskLoader<List<String>> {
-		public static final String TAG = "AppListLoader";
+        // Set the list items and assign with the click listener
+        builder.setItems(names, new DialogInterface.OnClickListener() {
+            // Click listener
+            public void onClick(DialogInterface dialog, int item) {
+                String newServerName = names[item].toString();
+                Log.v(TAG, "Setting server: " + newServerName);
+                SharedPreferences sharedPref = getSharedPreferences(
+                        SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt(LAST_SERVER_ID_KEY, 1);
+                editor.commit();
+            }
+        });
+        AlertDialog alert = builder.create();
+        // display dialog box
+        alert.show();
+    }
 
-		List<String> mStrings;
-		List<String> changingStrings;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
 
-		private MyTestContentProvider mObserver;
-		private static int counter = 0;
+    @Override
+    public Loader<List<String>> onCreateLoader(int id, Bundle args) {
+        // This is called when a new Loader needs to be created. This
+        // sample only has one Loader with no arguments, so it is simple.
+        return new AppListLoader(this);
+    }
 
-		public AppListLoader(Context context) {
-			super(context);
-		}
+    @Override
+    public void onLoadFinished(Loader<List<String>> loader, List<String> data) {
+        Log.v(TAG,
+                "On load finished, in loader: "
+                        + String.valueOf(loader.getId()));
+        int id = loader.getId();
 
-		/**
-		 * This is where the bulk of our work is done. This function is called
-		 * in a background thread and should generate a new set of data to be
-		 * published by the loader.
-		 */
-		@Override
-		public List<String> loadInBackground() {
+        if (id == 0) {
+            mFirstAdapter.setData(data);
+        } else if (id == 1) {
+            List<String> modifiedList = new ArrayList<String>();
+            for (String item : data) {
+                modifiedList.add("Second: " + item);
+            }
+            mSecondAdapter.setData(modifiedList);
+        }
+    }
 
-			Log.v(TAG, "Load in back ground");
+    @Override
+    public void onLoaderReset(Loader<List<String>> loader) {
+        // Clear the data in the adapter.
+        mFirstAdapter.setData(null);
+        mSecondAdapter.setData(null);
+    }
 
-			// Create corresponding array of entries and load their labels.
-			List<String> entries = new ArrayList<String>();
-			for (int i = 0; i < counter; i++) {
-				entries.add(String.valueOf(i));
-			}
-			counter += 1;
-			// for (String item: entries) {
-			// Log.v(TAG, "Item " + item);
-			// }
+    public static class MyTestContentProvider implements Runnable {
+        Thread myThread;
+        AppListLoader mLoader;
 
-			// Done!
-			return entries;
-		}
+        public final static String TAG = "MyTestContentProvider";
+        private boolean stopped = false;
 
-		/**
-		 * Called when there is new data to deliver to the client. The super
-		 * class will take care of delivering it; the implementation here just
-		 * adds a little more logic.
-		 */
-		@Override
-		public void deliverResult(List<String> apps) {
-			if (isReset()) {
-				// An async query came in while the loader is stopped. We
-				// don't need the result.
-				if (apps != null) {
-					onReleaseResources(apps);
-				}
-			}
-			Log.v(TAG, "Delivering result");
-			List<String> oldApps = apps;
-			mStrings = apps;
+        public MyTestContentProvider(AppListLoader loader) {
+            myThread = new Thread(this);
+            myThread.start();
+            mLoader = loader;
+        }
 
-			if (isStarted()) {
-				// If the Loader is currently started, we can immediately
-				// deliver its results.
-				Log.v(TAG, "Started");
-				super.deliverResult(apps);
-			}
+        public void stopThread() {
+            stopped = true;
+        }
 
-			// At this point we can release the resources associated with
-			// 'oldApps' if needed; now that the new result is delivered we
-			// know that it is no longer in use.
-			if (oldApps != null) {
-				onReleaseResources(oldApps);
-			}
-		}
+        public void run() {
+            Random randomGenerator = new Random();
+            int counter = 0;
+            while (!stopped) {
+                int randomInt = randomGenerator.nextInt(20);
+                // Log.v(TAG, "Running, generated: " +
+                // String.valueOf(randomInt));
+                if (randomInt > 15) {
+                    Log.v(TAG, "Content changed");
+                    counter += 1;
+                    if (counter >= 3) {
+                        counter = 0;
+                    }
+                    mLoader.onContentChanged();
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ie) {
+                        Log.e(TAG, ie.toString());
+                    }
+                }
+            }
+        }
+    }
 
-		/**
-		 * Handles a request to start the Loader.
-		 */
-		@Override
-		protected void onStartLoading() {
-			if (mStrings != null) {
-				// If we currently have a result available, deliver it
-				// immediately.
-				deliverResult(mStrings);
-			}
+    /**
+     * A custom Loader that loads all of the installed applications.
+     */
+    public static class AppListLoader extends AsyncTaskLoader<List<String>> {
+        public static final String TAG = "AppListLoader";
 
-			// Start watching for changes in the app data.
-			if (mObserver == null) {
-				mObserver = new MyTestContentProvider(this);
-			}
+        List<String> mStrings;
+        List<String> changingStrings;
 
-			Log.v(TAG, "Has something changed?");
+        private MyTestContentProvider mObserver;
+        private static int counter = 0;
 
-			if (takeContentChanged() || mStrings == null) {
-				// If the data has changed since the last time it was loaded
-				// or is not currently available, start a load.
-				forceLoad();
-			}
-		}
+        public AppListLoader(Context context) {
+            super(context);
+        }
 
-		/**
-		 * Handles a request to stop the Loader.
-		 */
-		@Override
-		protected void onStopLoading() {
-			// Attempt to cancel the current load task if possible.
-			cancelLoad();
-		}
+        /**
+         * This is where the bulk of our work is done. This function is called
+         * in a background thread and should generate a new set of data to be
+         * published by the loader.
+         */
+        @Override
+        public List<String> loadInBackground() {
 
-		/**
-		 * Handles a request to cancel a load.
-		 */
-		@Override
-		public void onCanceled(List<String> apps) {
-			super.onCanceled(apps);
+            Log.v(TAG, "Load in back ground");
 
-			// At this point we can release the resources associated with 'apps'
-			// if needed.
-			onReleaseResources(apps);
-		}
+            // Create corresponding array of entries and load their labels.
+            List<String> entries = new ArrayList<String>();
+            for (int i = 0; i < counter; i++) {
+                entries.add(String.valueOf(i));
+            }
+            counter += 1;
+            // for (String item: entries) {
+            // Log.v(TAG, "Item " + item);
+            // }
 
-		/**
-		 * Handles a request to completely reset the Loader.
-		 */
-		@Override
-		protected void onReset() {
-			super.onReset();
+            // Done!
+            return entries;
+        }
 
-			// Ensure the loader is stopped
-			onStopLoading();
+        /**
+         * Called when there is new data to deliver to the client. The super
+         * class will take care of delivering it; the implementation here just
+         * adds a little more logic.
+         */
+        @Override
+        public void deliverResult(List<String> apps) {
+            if (isReset()) {
+                // An async query came in while the loader is stopped. We
+                // don't need the result.
+                if (apps != null) {
+                    onReleaseResources(apps);
+                }
+            }
+            Log.v(TAG, "Delivering result");
+            List<String> oldApps = apps;
+            mStrings = apps;
 
-			// At this point we can release the resources associated with 'apps'
-			// if needed.
-			if (mStrings != null) {
-				onReleaseResources(mStrings);
-				mStrings = null;
-			}
+            if (isStarted()) {
+                // If the Loader is currently started, we can immediately
+                // deliver its results.
+                Log.v(TAG, "Started");
+                super.deliverResult(apps);
+            }
 
-			// Stop monitoring for changes.
-			if (mObserver != null) {
-				mObserver.stopThread();
-			}
-		}
+            // At this point we can release the resources associated with
+            // 'oldApps' if needed; now that the new result is delivered we
+            // know that it is no longer in use.
+            if (oldApps != null) {
+                onReleaseResources(oldApps);
+            }
+        }
 
-		/**
-		 * Helper function to take care of releasing resources associated with
-		 * an actively loaded data set.
-		 */
-		protected void onReleaseResources(List<String> apps) {
-			// For a simple List<> there is nothing to do. For something
-			// like a Cursor, we would close it here.
-		}
-	}
+        /**
+         * Handles a request to start the Loader.
+         */
+        @Override
+        protected void onStartLoading() {
+            if (mStrings != null) {
+                // If we currently have a result available, deliver it
+                // immediately.
+                deliverResult(mStrings);
+            }
 
-	public static class AppListAdapter extends ArrayAdapter<String> {
-		private final LayoutInflater mInflater;
+            // Start watching for changes in the app data.
+            if (mObserver == null) {
+                mObserver = new MyTestContentProvider(this);
+            }
 
-		public static final String TAG = "AppListAdapter";
+            Log.v(TAG, "Has something changed?");
 
-		public AppListAdapter(Context context) {
-			super(context, android.R.layout.simple_list_item_2);
-			mInflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		}
+            if (takeContentChanged() || mStrings == null) {
+                // If the data has changed since the last time it was loaded
+                // or is not currently available, start a load.
+                forceLoad();
+            }
+        }
 
-		public void setData(List<String> data) {
-			clear();
-			if (data != null) {
-				addAll(data);
-			}
-		}
+        /**
+         * Handles a request to stop the Loader.
+         */
+        @Override
+        protected void onStopLoading() {
+            // Attempt to cancel the current load task if possible.
+            cancelLoad();
+        }
 
-		/**
-		 * Populate new items in the list.
-		 */
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View view;
+        /**
+         * Handles a request to cancel a load.
+         */
+        @Override
+        public void onCanceled(List<String> apps) {
+            super.onCanceled(apps);
 
-			if (convertView == null) {
-				view = mInflater.inflate(R.layout.list_item_icon_text, parent,
-						false);
-			} else {
-				view = convertView;
-			}
+            // At this point we can release the resources associated with 'apps'
+            // if needed.
+            onReleaseResources(apps);
+        }
 
-			String item = getItem(position);
-			((TextView) view.findViewById(R.id.text)).setText(item);
-			return view;
-		}
-	}
+        /**
+         * Handles a request to completely reset the Loader.
+         */
+        @Override
+        protected void onReset() {
+            super.onReset();
+
+            // Ensure the loader is stopped
+            onStopLoading();
+
+            // At this point we can release the resources associated with 'apps'
+            // if needed.
+            if (mStrings != null) {
+                onReleaseResources(mStrings);
+                mStrings = null;
+            }
+
+            // Stop monitoring for changes.
+            if (mObserver != null) {
+                mObserver.stopThread();
+            }
+        }
+
+        /**
+         * Helper function to take care of releasing resources associated with
+         * an actively loaded data set.
+         */
+        protected void onReleaseResources(List<String> apps) {
+            // For a simple List<> there is nothing to do. For something
+            // like a Cursor, we would close it here.
+        }
+    }
+
+    public static class AppListAdapter extends ArrayAdapter<String> {
+        private final LayoutInflater mInflater;
+
+        public static final String TAG = "AppListAdapter";
+
+        public AppListAdapter(Context context) {
+            super(context, android.R.layout.simple_list_item_2);
+            mInflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public void setData(List<String> data) {
+            clear();
+            if (data != null) {
+                addAll(data);
+            }
+        }
+
+        /**
+         * Populate new items in the list.
+         */
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view;
+
+            if (convertView == null) {
+                view = mInflater.inflate(R.layout.list_item_icon_text, parent,
+                        false);
+            } else {
+                view = convertView;
+            }
+
+            String item = getItem(position);
+            ((TextView) view.findViewById(R.id.text)).setText(item);
+            return view;
+        }
+    }
 }
