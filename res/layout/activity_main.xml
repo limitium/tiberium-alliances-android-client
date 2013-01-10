@@ -5,11 +5,18 @@
               android:orientation="vertical">
 
     <TextView
-            android:id="@+id/some_big_bad_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_gravity="center_vertical"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView"
+            android:layout_gravity="center"/>
+
+    <ProgressBar
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/loginProgress"
+            android:layout_gravity="center"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"/>
 
     <LinearLayout
             android:id="@+id/lower_linear_layout"

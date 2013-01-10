@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.cnc.api.Authorizator;
 import com.cnc.game.GameServer;
 
 public class MainActivity extends Activity implements
@@ -52,78 +54,105 @@ public class MainActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        gs = new GameServer();
-        gs.setHash("ef4b582f-dee6-4b68-ab68-d5d24be4e68d");
-
         setContentView(R.layout.activity_main);
+
 
         // Authentication
         SharedPreferences sharedPref = getSharedPreferences(
                 SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-        String login = sharedPref.getString(LOGIN_KEY, new String());
-        String password = sharedPref.getString(PASSWORD_KEY, new String());
-        String lastHash = sharedPref.getString(LAST_HASH_KEY, new String());
-        int lastServerId = sharedPref.getInt(LAST_HASH_KEY, 0);
 
-        if (login.isEmpty() || password.isEmpty()) {
-            Log.v(TAG, "Asking for login and password");
-            showAuthDialog();
-        } else {
-            Log.v(TAG, "Login: " + login);
-            Log.v(TAG, "Password: " + password);
-        }
+//        String lastHash = sharedPref.getString(LAST_HASH_KEY, new String());
+//        int lastServerId = sharedPref.getInt(LAST_HASH_KEY, 0);
 
-        // Server pick
-        showServerDialog();
+//        if (login.isEmpty() || password.isEmpty()) {
+//            Log.v(TAG, "Asking for login and password");
+        showAuthDialog();
+//        } else {
+//            Log.v(TAG, "Login: " + login);
+//            Log.v(TAG, "Password: " + password);
+//        }
 
-        // Create an empty adapter we will use to display the loaded data.
-        mFirstAdapter = new AppListAdapter(this);
-        mFirstListView = (ListView) findViewById(R.id.first_list);
-        mFirstListView.setAdapter(mFirstAdapter);
-
-        mSecondAdapter = new AppListAdapter(this);
-        mSecondListView = (ListView) findViewById(R.id.second_list);
-        mSecondListView.setAdapter(mSecondAdapter);
-
-        TextView textView = (TextView) findViewById(R.id.some_big_bad_text_view);
-        textView.setText("Big text view");
-
-        // Prepare the loader. Either re-connect with an existing one,
-        // or start a new one.
-        getLoaderManager().initLoader(0, null, this);
-        getLoaderManager().initLoader(1, null, this);
+//        // Server pick
+//        showServerDialog();
+//
+//        // Create an empty adapter we will use to display the loaded data.
+//        mFirstAdapter = new AppListAdapter(this);
+//        mFirstListView = (ListView) findViewById(R.id.first_list);
+//        mFirstListView.setAdapter(mFirstAdapter);
+//
+//        mSecondAdapter = new AppListAdapter(this);
+//        mSecondListView = (ListView) findViewById(R.id.second_list);
+//        mSecondListView.setAdapter(mSecondAdapter);
+//
+//        TextView textView = (TextView) findViewById(R.id.some_big_bad_text_view);
+//        textView.setText("Big text view");
+//
+//        // Prepare the loader. Either re-connect with an existing one,
+//        // or start a new one.
+//        getLoaderManager().initLoader(0, null, this);
+//        getLoaderManager().initLoader(1, null, this);
     }
 
     private void showAuthDialog() {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater factory = LayoutInflater.from(this);
-        final View textEntryView = factory.inflate(R.layout.alert_dialog, null);
-        alert.setView(textEntryView);
-        alert.setTitle("Enter login and password");
+        final View textEntryView = factory.inflate(R.layout.auth_dialog, null);
+        builder.setView(textEntryView);
+        builder.setTitle("Enter login and password");
+        builder.setCancelable(true);
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
 
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            }
+        });
+
+        final EditText loginInput = (EditText) textEntryView.findViewById(R.id.login);
+        final EditText passwordInput = (EditText) textEntryView.findViewById(R.id.password);
+
+        final SharedPreferences sharedPref = getSharedPreferences(
+                MainActivity.SHARED_PREFERENCES_KEY,
+                Context.MODE_PRIVATE);
+        loginInput.setText(sharedPref.getString(LOGIN_KEY, ""));
+        passwordInput.setText(sharedPref.getString(PASSWORD_KEY, ""));
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                SharedPreferences sharedPref = getSharedPreferences(
-                        MainActivity.SHARED_PREFERENCES_KEY,
-                        Context.MODE_PRIVATE);
-
-                final EditText loginInput = (EditText) textEntryView
-                        .findViewById(R.id.editText1);
-                final EditText passwordInput = (EditText) textEntryView
-                        .findViewById(R.id.editText2);
-
                 String login = loginInput.getText().toString().trim();
                 String password = passwordInput.getText().toString().trim();
+
                 Toast.makeText(getApplicationContext(),
                         "Login: " + login + "\nPassword: " + password,
                         Toast.LENGTH_SHORT).show();
+
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(MainActivity.LOGIN_KEY, login);
                 editor.putString(MainActivity.PASSWORD_KEY, password);
                 editor.commit();
+                MainActivity.this.authorize();
             }
         });
-        alert.show();
+        builder.show();
+    }
+
+    private void authorize() {
+        final SharedPreferences sharedPref = getSharedPreferences(
+                MainActivity.SHARED_PREFERENCES_KEY,
+                Context.MODE_PRIVATE);
+
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                Log.d(TAG, params[0] + " " + params[1]);
+                return Authorizator.authorize(params[0], params[1]);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.d(TAG, "Result " + result);
+                TextView tv = (TextView) findViewById(R.id.textView);
+                tv.setText(result);
+            }
+        }.execute(sharedPref.getString(LOGIN_KEY, ""), sharedPref.getString(PASSWORD_KEY, ""));
     }
 
     private void showServerDialog() {
