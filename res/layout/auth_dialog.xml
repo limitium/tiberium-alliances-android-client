@@ -2,17 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="false">
+    android:clickable="false"
+        >
 
     <EditText
         android:id="@+id/login"
-        android:layout_width="wrap_content"
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/login_hint"
         android:inputType="textPersonName"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="42dp"/>
 
     <EditText
         android:id="@+id/password"
@@ -23,6 +25,40 @@
         android:ems="10"
         android:hint="@string/password_hint"
         android:inputType="textPassword"
-        android:password="true" />
+        android:password="true"
+        android:layout_alignRight="@+id/login"
+        android:layout_alignLeft="@+id/login"/>
+
+    <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginProgress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:indeterminate="false"
+            android:max="100"
+            android:visibility="visible"
+            android:layout_alignLeft="@+id/login"
+            android:layout_below="@+id/loginStatus"
+            android:layout_alignRight="@+id/login"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:id="@+id/loginStatus"
+            android:visibility="visible"
+            android:layout_alignLeft="@+id/login"
+            android:layout_below="@+id/password"
+            android:layout_alignRight="@+id/login"/>
+
+    <Button
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:id="@+id/loginButton"
+            style="@android:style/Widget.Button"
+            android:layout_alignLeft="@+id/login"
+            android:layout_below="@+id/loginProgress"
+            android:layout_alignRight="@+id/login"/>
 
 </RelativeLayout>

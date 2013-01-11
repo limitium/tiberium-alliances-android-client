@@ -1,4 +1,4 @@
-package com.example.sandbox;
+package com.cnc.CnCTA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,23 +14,20 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.cnc.api.Authorizator;
 import com.cnc.game.GameServer;
 
-public class MainActivity extends Activity implements
+public class GameActivity extends Activity implements
         LoaderManager.LoaderCallbacks<List<String>> {
 
-    public final String TAG = "Sandbox";
+    public final String TAG = "CnCTA";
 
     // This is the Adapter being used to display the list's data.
     AppListAdapter mFirstAdapter;
@@ -54,19 +51,53 @@ public class MainActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.auth_dialog);
 
 
-        // Authentication
-        SharedPreferences sharedPref = getSharedPreferences(
-                SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        final EditText loginInput = (EditText) findViewById(R.id.login);
+        final EditText passwordInput = (EditText) findViewById(R.id.password);
+        final Button loginButton = (Button) findViewById(R.id.loginButton);
 
+        loginInput.setText(sharedPref.getString(LOGIN_KEY, "lworld10@mailinator.com"));
+        passwordInput.setText(sharedPref.getString(PASSWORD_KEY, "qweqwe123"));
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String login = loginInput.getText().toString().trim();
+                String password = passwordInput.getText().toString().trim();
+
+                Toast.makeText(getApplicationContext(),
+                        "Login: " + login + "\nPassword: " + password,
+                        Toast.LENGTH_SHORT).show();
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(GameActivity.LOGIN_KEY, login);
+                editor.putString(GameActivity.PASSWORD_KEY, password);
+                editor.commit();
+
+                GameActivity.this.authorize();
+            }
+        });
+
+
+//        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//
+//
+//                SharedPreferences.Editor editor = sharedPref.edit();
+//                editor.putString(LoginActivity.LOGIN_KEY, login);
+//                editor.putString(LoginActivity.PASSWORD_KEY, password);
+//                editor.commit();
+//                LoginActivity.this.authorize();
+//            }
+//        });
 //        String lastHash = sharedPref.getString(LAST_HASH_KEY, new String());
 //        int lastServerId = sharedPref.getInt(LAST_HASH_KEY, 0);
 
 //        if (login.isEmpty() || password.isEmpty()) {
 //            Log.v(TAG, "Asking for login and password");
-        showAuthDialog();
+//        showAuthDialog();
 //        } else {
 //            Log.v(TAG, "Login: " + login);
 //            Log.v(TAG, "Password: " + password);
@@ -93,63 +124,37 @@ public class MainActivity extends Activity implements
 //        getLoaderManager().initLoader(1, null, this);
     }
 
-    private void showAuthDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View textEntryView = factory.inflate(R.layout.auth_dialog, null);
-        builder.setView(textEntryView);
-        builder.setTitle("Enter login and password");
-        builder.setCancelable(true);
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-
-        final EditText loginInput = (EditText) textEntryView.findViewById(R.id.login);
-        final EditText passwordInput = (EditText) textEntryView.findViewById(R.id.password);
-
-        final SharedPreferences sharedPref = getSharedPreferences(
-                MainActivity.SHARED_PREFERENCES_KEY,
-                Context.MODE_PRIVATE);
-        loginInput.setText(sharedPref.getString(LOGIN_KEY, ""));
-        passwordInput.setText(sharedPref.getString(PASSWORD_KEY, ""));
-
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String login = loginInput.getText().toString().trim();
-                String password = passwordInput.getText().toString().trim();
-
-                Toast.makeText(getApplicationContext(),
-                        "Login: " + login + "\nPassword: " + password,
-                        Toast.LENGTH_SHORT).show();
-
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(MainActivity.LOGIN_KEY, login);
-                editor.putString(MainActivity.PASSWORD_KEY, password);
-                editor.commit();
-                MainActivity.this.authorize();
-            }
-        });
-        builder.show();
-    }
-
     private void authorize() {
         final SharedPreferences sharedPref = getSharedPreferences(
-                MainActivity.SHARED_PREFERENCES_KEY,
+                GameActivity.SHARED_PREFERENCES_KEY,
                 Context.MODE_PRIVATE);
+        final Handler handler = new Handler();
+        final ProgressBar loginProgress = (ProgressBar) findViewById(R.id.loginProgress);
+        final TextView loginStatus = (TextView) findViewById(R.id.loginStatus);
+
 
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... params) {
                 Log.d(TAG, params[0] + " " + params[1]);
-                return Authorizator.authorize(params[0], params[1]);
+                return Authorizator.authorize(params[0], params[1], new Authorizator.Progress() {
+                    @Override
+                    public void onStep(final int step, final String msg) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                loginStatus.setText(msg);
+                                loginProgress.setProgress((int) (step * 1.8));
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
             protected void onPostExecute(String result) {
-                Log.d(TAG, "Result " + result);
-                TextView tv = (TextView) findViewById(R.id.textView);
+                Log.d(TAG, "Hash " + result);
+                TextView tv = (TextView) findViewById(R.id.loginStatus);
                 tv.setText(result);
             }
         }.execute(sharedPref.getString(LOGIN_KEY, ""), sharedPref.getString(PASSWORD_KEY, ""));
@@ -196,7 +201,7 @@ public class MainActivity extends Activity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+//        getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
 

@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.example.sandbox;
+package com.cnc.CnCTA;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;
