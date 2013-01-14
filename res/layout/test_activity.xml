@@ -5,9 +5,21 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
 
-    <ProgressBar
-            android:layout_width="wrap_content"
+    <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_gravity="center"/>
+            android:id="@+id/textLogin"/>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+        <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/listServers"
+                android:choiceMode="singleChoice"
+                android:listSelector="#75c241"/>
+    </LinearLayout>
 </LinearLayout>

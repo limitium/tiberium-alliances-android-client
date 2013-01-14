@@ -123,13 +123,18 @@ public class LoginActivity extends Activity {
             @Override
             protected void onPostExecute(ArrayList<Server> result) {
                 if (result == null || result.size() == 0) {
-                    loginButton.setVisibility(View.VISIBLE);
                     Toast.makeText(getApplicationContext(), "No servers found.", Toast.LENGTH_SHORT).show();
                 } else {
                     loginProgress.setProgress(100);
                     loginStatus.setText("Launching game");
-                    startActivity(new Intent(LoginActivity.this, TestActivity.class));
+                    Intent intent = new Intent(LoginActivity.this, TestActivity.class);
+                    intent.putExtra("servers", result);
+                    startActivity(intent);
+
+                    loginStatus.setVisibility(View.GONE);
+                    loginProgress.setVisibility(View.GONE);
                 }
+                loginButton.setVisibility(View.VISIBLE);
             }
         }.execute();
     }
