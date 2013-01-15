@@ -34,7 +34,7 @@ public class LoginActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.auth_dialog);
+        setContentView(R.layout.login);
 
         final SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
         final EditText loginInput = (EditText) findViewById(R.id.login);
@@ -127,7 +127,7 @@ public class LoginActivity extends Activity {
                 } else {
                     loginProgress.setProgress(100);
                     loginStatus.setText("Launching game");
-                    Intent intent = new Intent(LoginActivity.this, TestActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ClientActivity.class);
                     intent.putExtra("servers", result);
                     startActivity(intent);
 

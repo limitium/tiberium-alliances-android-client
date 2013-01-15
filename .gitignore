@@ -46,3 +46,6 @@ CnCTA.iml
 out
 bin
 local.properties
+*.iml
+*.ipr
+*.iws
