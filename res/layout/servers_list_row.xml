@@ -14,7 +14,7 @@
                   android:layout_marginRight="5dip">
 
         <ImageView
-                android:id="@+id/list_image"
+                android:id="@+id/server_image"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
                 android:src="@drawable/icon_gdi"/>
@@ -23,7 +23,7 @@
 
     <!-- Title Of Song-->
     <TextView
-            android:id="@+id/title"
+            android:id="@+id/server_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/thumbnail"
@@ -35,10 +35,10 @@
 
     <!-- Artist Name -->
     <TextView
-            android:id="@+id/artist"
+            android:id="@+id/server_is_online"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
+            android:layout_below="@+id/server_name"
             android:textSize="10dip"
             android:layout_marginTop="1dip"
             android:layout_toRightOf="@+id/thumbnail"
@@ -46,16 +46,16 @@
 
     <!-- Rightend Duration -->
     <TextView
-            android:id="@+id/duration"
+            android:id="@+id/server_last_seen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:text="time ago"
             android:textSize="10dip"
-            android:textColor="#10bcc9"
+            android:textColor="#0777b8"
             android:textStyle="bold"
-            android:layout_alignRight="@+id/artist"
-            android:layout_below="@+id/title"/>
+            android:layout_alignRight="@+id/server_is_online"
+            android:layout_below="@+id/server_name"/>
 
     <!-- Rightend Arrow -->
 

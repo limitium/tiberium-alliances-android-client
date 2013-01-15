@@ -20,6 +20,7 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/listServers"
                 android:choiceMode="singleChoice"
-                android:listSelector="#75c241"/>
+                android:listSelector="@android:color/holo_green_dark"
+                android:longClickable="false"/>
     </LinearLayout>
 </LinearLayout>

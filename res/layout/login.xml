@@ -13,7 +13,9 @@
         android:hint="@string/login_hint"
         android:inputType="textPersonName"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/imageLogo"/>
+        android:layout_below="@+id/imageLogo"
+        android:singleLine="true"
+            />
 
     <EditText
         android:id="@+id/password"
@@ -38,7 +40,9 @@
             android:visibility="visible"
             android:layout_alignLeft="@+id/login"
             android:layout_below="@+id/loginStatus"
-            android:layout_alignRight="@+id/login"/>
+            android:layout_alignRight="@+id/login"
+            android:progress="33"
+            android:progressDrawable="@drawable/greenprogress"/>
 
     <ImageView
             android:layout_width="wrap_content"
@@ -57,7 +61,8 @@
             android:visibility="visible"
             android:layout_alignLeft="@+id/login"
             android:layout_below="@+id/password"
-            android:layout_alignRight="@+id/login"/>
+            android:layout_alignRight="@+id/login"
+            android:textColor="#1cd412"/>
 
     <Button
             android:layout_width="190dp"

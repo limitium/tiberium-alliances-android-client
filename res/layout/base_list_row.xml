@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dip" >
+
+    <!--  ListRow Left sied Thumbnail image -->
+    <RelativeLayout android:id="@+id/thumbnail"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:padding="3dip"
+                  android:layout_alignParentLeft="true"
+                  android:layout_marginRight="5dip">
+
+        <ImageView
+                android:id="@+id/list_base_image"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:src="@drawable/n1"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="2dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="2dp"/>
+
+        <ImageView
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:id="@+id/list_base_protection_image"
+                android:src="@drawable/protection_n"
+                android:layout_marginLeft="2dip"
+                android:layout_marginTop="2dip"/>
+
+    </RelativeLayout>
+
+    <!-- Title Of Song-->
+    <TextView
+            android:id="@+id/base_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Base oleg"
+            android:typeface="sans"
+            android:textSize="17dip"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/thumbnail"
+            android:layout_alignTop="@+id/thumbnail"/>
+
+    <!-- Artist Name -->
+    <TextView
+            android:id="@+id/base_coords"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:textSize="10dip"
+            android:text="500:200"
+            android:textColor="#0777b8"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/base_name"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status_icon1"
+            android:src="@drawable/pckg_full"
+            android:layout_alignLeft="@+id/base_name"
+            android:layout_below="@+id/base_name"
+            android:layout_margin="1dip"
+            />
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status_icon2"
+            android:layout_toRightOf="@+id/status_icon1"
+            android:layout_below="@+id/base_name"
+            android:src="@drawable/storage_full"
+            android:layout_margin="1dip"
+            />
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status_icon3"
+            android:layout_toRightOf="@+id/status_icon2"
+            android:layout_below="@+id/base_name"
+            android:src="@drawable/base_damaged"
+            android:layout_margin="1dip"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buildings:"
+            android:id="@+id/buildings_cond"
+            android:layout_alignLeft="@+id/base_name"
+            android:layout_below="@+id/status_icon1"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Defence:"
+            android:id="@+id/defence_cond"
+            android:layout_alignLeft="@+id/base_name"
+            android:layout_below="@+id/buildings_cond"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:id="@+id/defence_cond_value"
+            android:layout_toRightOf="@+id/status_icon3"
+            android:layout_below="@+id/buildings_cond"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:id="@+id/buildings_cond_value"
+            android:layout_toRightOf="@+id/status_icon3"
+            android:layout_below="@+id/status_icon1"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lvl:"
+            android:id="@+id/level_label"
+            android:layout_toRightOf="@+id/defence_cond_value"
+            android:layout_alignBottom="@+id/base_name"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:id="@+id/base_level"
+            android:layout_toRightOf="@+id/level_label"
+            android:layout_alignBottom="@+id/base_name"/>
+
+    <!-- Rightend Duration -->
+
+    <!-- Rightend Arrow -->
+
+</RelativeLayout>

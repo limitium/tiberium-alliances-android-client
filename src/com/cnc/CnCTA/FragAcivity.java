@@ -3,8 +3,7 @@ package com.cnc.CnCTA;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import com.cnc.CnCTA.fragment.BasesFragment;
 
 public class FragAcivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
