@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.cnc.CnCTA.R;
-import com.cnc.CnCTA.adapter.BaseAdapter;
+import com.cnc.CnCTA.adapter.CityAdapter;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class BasesFragment extends Fragment {
 
         ListView serversList = (ListView) view.findViewById(R.id.listBases);
 
-        BaseAdapter adapter = new BaseAdapter(getActivity(), R.layout.base_list_row, bases);
+        CityAdapter adapter = new CityAdapter(getActivity(), R.layout.base_list_row, bases);
         serversList.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
