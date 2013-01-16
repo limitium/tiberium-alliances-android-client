@@ -55,7 +55,6 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="365"
                 android:id="@+id/creditValue"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
@@ -75,7 +74,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100 / 500"
+                android:text="/"
                 android:id="@+id/commandPointValue"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
@@ -85,7 +84,6 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
                 android:id="@+id/username"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
@@ -106,7 +104,6 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100500"
                 android:id="@+id/rankingValue"
                 android:textColor="#0777b8"
                 android:layout_alignParentRight="true"
@@ -124,7 +121,6 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2"
                 android:id="@+id/packageValue"
                 android:layout_toRightOf="@+id/imageCP"
                 android:layout_alignBottom="@+id/imageRP"
@@ -134,7 +130,6 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20"
                 android:id="@+id/supplyPointValue"
                 android:layout_toRightOf="@+id/imageRPP"
                 android:layout_alignBottom="@+id/imageCP"
@@ -144,7 +139,6 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="444"
                 android:id="@+id/researchPointValue"
                 android:layout_toRightOf="@+id/imageRPP"
                 android:layout_alignBottom="@+id/imageC"
@@ -154,7 +148,6 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:id="@+id/messageValue"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"

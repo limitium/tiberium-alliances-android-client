@@ -23,9 +23,8 @@ public class LoginActivity extends Activity {
 
     public static final String LOGIN_KEY = "LOGIN";
     public static final String PASSWORD_KEY = "PASSWORD";
+    public static final String HASH_KEY = "HASH";
     public static final String SHARED_PREFERENCES_KEY = "AUTH";
-    public static final String LAST_HASH_KEY = "LAST_HASH";
-    public static final String LAST_SERVER_ID_KEY = "SERVER_ID";
     private GameServer gameServer;
     private Client gameClient;
 
@@ -51,12 +50,15 @@ public class LoginActivity extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String login = loginInput.getText().toString().trim();
+                String password = passwordInput.getText().toString().trim();
+
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(LoginActivity.LOGIN_KEY, loginInput.getText().toString().trim());
-                editor.putString(LoginActivity.PASSWORD_KEY, passwordInput.getText().toString().trim());
+                editor.putString(LoginActivity.LOGIN_KEY, login);
+                editor.putString(LoginActivity.PASSWORD_KEY, password);
                 editor.commit();
 
-                LoginActivity.this.authorize();
+                LoginActivity.this.authorize(login, password);
             }
         });
 
@@ -64,8 +66,9 @@ public class LoginActivity extends Activity {
         gameClient = new Client(gameServer);
     }
 
-    private void authorize() {
-        final SharedPreferences sharedPref = getSharedPreferences(LoginActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+    private void authorize(String login, String password) {
+        final SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+
         final ProgressBar loginProgress = (ProgressBar) findViewById(R.id.loginProgress);
         final TextView loginStatus = (TextView) findViewById(R.id.loginStatus);
         final Button loginButton = (Button) findViewById(R.id.loginButton);
@@ -96,19 +99,23 @@ public class LoginActivity extends Activity {
             }
 
             @Override
-            protected void onPostExecute(String result) {
-                Log.d(TAG, "Hash " + result);
-                if (result != null) {
-                    LoginActivity.this.loadServers(result);
+            protected void onPostExecute(String hash) {
+                Log.d(TAG, "Hash " + hash);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(LoginActivity.HASH_KEY, hash);
+                editor.commit();
+                if (hash != null) {
+                    LoginActivity.this.loadServers(hash);
                 } else {
                     loginButton.setVisibility(View.VISIBLE);
                 }
             }
-        }.execute(sharedPref.getString(LOGIN_KEY, ""), sharedPref.getString(PASSWORD_KEY, ""));
+        }.execute(login, password);
     }
 
-    private void loadServers(String result) {
-        gameServer.setHash(result);
+    private void loadServers(String hash) {
+        gameServer.setHash(hash);
+
         final ProgressBar loginProgress = (ProgressBar) findViewById(R.id.loginProgress);
         final TextView loginStatus = (TextView) findViewById(R.id.loginStatus);
         final Button loginButton = (Button) findViewById(R.id.loginButton);
@@ -117,7 +124,7 @@ public class LoginActivity extends Activity {
         new AsyncTask<Void, Void, ArrayList<Server>>() {
             @Override
             protected ArrayList<Server> doInBackground(Void... params) {
-                return LoginActivity.this.gameClient.getServers();
+                return LoginActivity.this.gameClient.updateServers();
             }
 
             @Override
