@@ -24,7 +24,7 @@ import android.widget.*;
 import com.cnc.api.Authorizator;
 import com.cnc.game.GameServer;
 
-public class GameActivity extends Activity implements
+public class oldActivity extends Activity implements
         LoaderManager.LoaderCallbacks<List<String>> {
 
     public final String TAG = "CnCTA";
@@ -72,11 +72,11 @@ public class GameActivity extends Activity implements
                         Toast.LENGTH_SHORT).show();
 
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(GameActivity.LOGIN_KEY, login);
-                editor.putString(GameActivity.PASSWORD_KEY, password);
+                editor.putString(oldActivity.LOGIN_KEY, login);
+                editor.putString(oldActivity.PASSWORD_KEY, password);
                 editor.commit();
 
-                GameActivity.this.authorize();
+                oldActivity.this.authorize();
             }
         });
 
@@ -126,7 +126,7 @@ public class GameActivity extends Activity implements
 
     private void authorize() {
         final SharedPreferences sharedPref = getSharedPreferences(
-                GameActivity.SHARED_PREFERENCES_KEY,
+                oldActivity.SHARED_PREFERENCES_KEY,
                 Context.MODE_PRIVATE);
         final Handler handler = new Handler();
         final ProgressBar loginProgress = (ProgressBar) findViewById(R.id.loginProgress);

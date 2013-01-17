@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.cnc.CnCTA.R;
 import com.cnc.model.Server;
@@ -40,7 +41,8 @@ public class ServerAdapter extends ArrayAdapter<Server> {
         TextView isOnline = (TextView) row.findViewById(R.id.server_is_online); // isOnline name
         TextView lastSeen = (TextView) row.findViewById(R.id.server_last_seen); // lastSeen
         ImageView fraction = (ImageView) row.findViewById(R.id.server_image); // thumb image
-
+        final ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.server_enter_progress);
+        progressBar.setVisibility(View.GONE);
 
         Server server = getItem(position);
 

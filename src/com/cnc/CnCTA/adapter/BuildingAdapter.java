@@ -34,19 +34,7 @@ public class BuildingAdapter extends ArrayAdapter<String> {
         ImageView icon = (ImageView) row.findViewById(R.id.building_image);
         TextView level = (TextView) row.findViewById(R.id.building_level);
         LinearLayout cell = (LinearLayout) row.findViewById(R.id.building_cell);
-        int measuredWidth = cell.getMeasuredWidth();
-        int width = cell.getWidth();
-        int width2 = cell.getVerticalScrollbarWidth();
-        int width3 = cell.getMeasuredWidthAndState();
         cell.setLayoutParams(new AbsListView.LayoutParams(cellSize.x, cellSize.y));
-//        level.setText(((int) (Math.random() * 40)) + "");
-//        int imageResource = context.getResources().getIdentifier("@drawable/n" + (((int) (Math.random() * 8))), null, context.getPackageName());
-//        int imageResource = context.getResources().getIdentifier("@drawable/base_silo", null, context.getPackageName());
-//        icon.setImageResource(imageResource);
-//        imageResource = context.getResources().getIdentifier("@drawable/protection_n", null, context.getPackageName());
-//        icon_potection.setImageResource(imageResource);
-//        icon_potection.setVisibility(Math.random() > 0.6 ? View.GONE : View.VISIBLE);
-
         return row;
     }
 }

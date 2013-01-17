@@ -1,6 +1,7 @@
 package com.cnc.CnCTA;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.cnc.CnCTA.adapter.ServerAdapter;
+import com.cnc.CnCTA.fragment.BaseFragment;
+import com.cnc.CnCTA.fragment.BasesFragment;
 import com.cnc.CnCTA.fragment.ServersFragment;
 import com.cnc.game.Client;
 import com.cnc.game.GameServer;
@@ -34,9 +37,13 @@ public class ClientActivity extends Activity implements ServersFragment.ServersP
         gameClient = new Client(gameServer);
         final SharedPreferences sharedPref = getSharedPreferences(LoginActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
         gameServer.setHash(sharedPref.getString(LoginActivity.HASH_KEY, ""));
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.main_container, new ServersFragment());
+        ft.commit();
     }
 
-    private void enterServer(Server server) {
+    public void enterServer(Server server) {
         gameServer.selectServer(server);
         new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -46,7 +53,13 @@ public class ClientActivity extends Activity implements ServersFragment.ServersP
 
             @Override
             protected void onPostExecute(Boolean isOpen) {
-
+                if (isOpen) {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.main_container, new BasesFragment());
+                    ft.commit();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Can't open server session.", Toast.LENGTH_SHORT).show();
+                }
             }
         }.execute();
     }

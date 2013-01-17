@@ -107,6 +107,7 @@ public class LoginActivity extends Activity {
                 if (hash != null) {
                     LoginActivity.this.loadServers(hash);
                 } else {
+                    Toast.makeText(getApplicationContext(), "Can't take token.", Toast.LENGTH_SHORT).show();
                     loginButton.setVisibility(View.VISIBLE);
                 }
             }

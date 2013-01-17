@@ -22,28 +22,14 @@ public class BaseFragment extends Fragment {
         View view = inflater.inflate(R.layout.base, container, false);
 
         GridView gridview = (GridView) view.findViewById(R.id.base_buildings);
-        Point cellSize=updateGridMargins(gridview);
+        Point cellSize = updateGridMargins(gridview);
 
         ArrayList<String> ar = new ArrayList<String>();
         for (int i = 0; i < 8 * 9; i++) {
             ar.add("");
         }
-        BuildingAdapter aa = new BuildingAdapter(getActivity(), R.layout.base_building_cell, cellSize,ar);
-
+        BuildingAdapter aa = new BuildingAdapter(getActivity(), R.layout.base_building_cell, cellSize, ar);
         gridview.setAdapter(aa);
-
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                ft.replace(R.id.main_container, new BasesFragment());
-//                ft.commit();
-//            }
-//        });
-        Toast.makeText(getActivity().getApplicationContext(),
-                getActivity().getWindowManager().getDefaultDisplay().getWidth() + ":" + getActivity().getWindowManager().getDefaultDisplay().getHeight(),
-                Toast.LENGTH_SHORT).show();
-
         return view;
     }
 
@@ -57,6 +43,6 @@ public class BaseFragment extends Fragment {
         int left = (int) (90 * scaleX);
         int right = (int) (90 * scaleX);
         gridview.setPadding(left, top, right, bottom);
-        return new Point((size.x-left-right)/9,(size.y-top-bottom)/8);
+        return new Point((size.x - left - right) / 9, (size.y - top - bottom ) / 8);
     }
 }

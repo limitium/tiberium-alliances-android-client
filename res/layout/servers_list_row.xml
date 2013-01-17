@@ -17,7 +17,7 @@
                 android:id="@+id/server_image"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
-                />
+                android:src="@drawable/icon_nod"/>
 
     </LinearLayout>
 
@@ -30,7 +30,8 @@
             android:layout_toRightOf="@+id/thumbnail"
             android:typeface="sans"
             android:textSize="15dip"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:text="servername"/>
 
     <!-- Artist Name -->
     <TextView
@@ -41,7 +42,7 @@
             android:textSize="10dip"
             android:layout_marginTop="1dip"
             android:layout_toRightOf="@+id/thumbnail"
-            />
+            android:text="online"/>
 
     <!-- Rightend Duration -->
     <TextView
@@ -53,7 +54,19 @@
             android:textColor="#0777b8"
             android:textStyle="bold"
             android:layout_alignRight="@+id/server_is_online"
-            android:layout_below="@+id/server_name"/>
+            android:layout_below="@+id/server_name"
+            android:text="last seen"/>
+
+    <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/server_enter_progress"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@+id/thumbnail"
+            android:indeterminate="true"
+            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+            android:layout_alignRight="@+id/server_is_online"
+            android:layout_alignLeft="@+id/server_name"/>
 
     <!-- Rightend Arrow -->
 

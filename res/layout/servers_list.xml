@@ -8,7 +8,10 @@
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textLogin"/>
+            android:id="@+id/login_text"
+            android:text="username"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"/>
 
     <LinearLayout
             android:orientation="vertical"
@@ -18,9 +21,11 @@
         <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/listServers"
+                android:id="@+id/servers_list"
                 android:choiceMode="singleChoice"
-                android:listSelector="@android:color/holo_green_dark"
+                android:listSelector="@drawable/greenprogress"
+                android:cacheColorHint="@drawable/greenprogress"
+                android:drawSelectorOnTop="false"
                 android:longClickable="false"/>
     </LinearLayout>
 </LinearLayout>

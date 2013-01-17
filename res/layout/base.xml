@@ -22,7 +22,177 @@
                 android:longClickable="false"
                 android:layout_alignParentLeft="false" android:layout_alignParentTop="true"
                 android:layout_alignParentRight="false" android:layout_alignParentBottom="false"
-                android:verticalSpacing="0dp" android:textFilterEnabled="false" android:layout_centerInParent="true"/>
+                android:verticalSpacing="0dp" android:textFilterEnabled="false" android:layout_centerInParent="true"
+                android:listSelector="@android:color/transparent"
+                android:horizontalSpacing="0dp"/>
+
+        <GridLayout
+                android:layout_width="fill_parent"
+                android:layout_height="31dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:columnCount="8"
+                android:id="@+id/gridLayout">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tiberium_icon"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:src="@drawable/tiberium"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="32.222"
+                    android:id="@+id/base_tiberium_value"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/crystal_icon"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:src="@drawable/crystal"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="32.222"
+                    android:id="@+id/base_crystal_value"
+                    android:layout_row="0"
+                    android:layout_column="3"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/power_icon"
+                    android:layout_row="0"
+                    android:layout_column="4"
+                    android:src="@drawable/power"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="32.222"
+                    android:id="@+id/base_power_value"
+                    android:layout_row="0"
+                    android:layout_column="5"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/credit_icon"
+                    android:layout_row="0"
+                    android:layout_column="6"
+                    android:src="@drawable/credit"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="32.222"
+                    android:id="@+id/base_credit_value"
+                    android:layout_row="0"
+                    android:layout_column="7"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_vertical"/>
+
+        </GridLayout>
+
+        <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="false"
+                android:columnCount="1"
+                android:rowCount="4"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="false"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_below="@+id/gridLayout">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView1"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:src="@drawable/upgrade"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView2"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:src="@drawable/move"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView3"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:src="@drawable/fix"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView4"
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:src="@drawable/sell"/>
+        </GridLayout>
+
+        <GridLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="4"
+                android:rowCount="1"
+                android:layout_alignLeft="@+id/imageView"
+                android:layout_alignBottom="@+id/imageView">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7.45"
+                    android:id="@+id/textView"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView5"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:src="@drawable/building_limit"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23/44"
+                    android:id="@+id/textView1"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_vertical"/>
+        </GridLayout>
     </RelativeLayout>
 
 </LinearLayout>
