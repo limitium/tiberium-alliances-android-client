@@ -23,8 +23,7 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/servers_list"
                 android:choiceMode="singleChoice"
-                android:listSelector="@drawable/greenprogress"
-                android:cacheColorHint="@drawable/greenprogress"
+                android:listSelector="@drawable/server_selector"
                 android:drawSelectorOnTop="false"
                 android:longClickable="false"/>
     </LinearLayout>

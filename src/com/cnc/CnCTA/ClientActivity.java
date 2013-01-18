@@ -3,16 +3,12 @@ package com.cnc.CnCTA;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.cnc.CnCTA.adapter.ServerAdapter;
-import com.cnc.CnCTA.fragment.BaseFragment;
 import com.cnc.CnCTA.fragment.BasesFragment;
 import com.cnc.CnCTA.fragment.ServersFragment;
 import com.cnc.game.Client;
@@ -43,7 +39,8 @@ public class ClientActivity extends Activity implements ServersFragment.ServersP
         ft.commit();
     }
 
-    public void enterServer(Server server) {
+    @Override
+    public void enterServer(Server server, final ProgressBar progressBar) {
         gameServer.selectServer(server);
         new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -54,8 +51,9 @@ public class ClientActivity extends Activity implements ServersFragment.ServersP
             @Override
             protected void onPostExecute(Boolean isOpen) {
                 if (isOpen) {
+                    progressBar.setVisibility(View.GONE);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.main_container, new BasesFragment());
+                    ft.replace(R.id.main_container, new BasesFragment(gameClient));
                     ft.commit();
                 } else {
                     Toast.makeText(getApplicationContext(), "Can't open server session.", Toast.LENGTH_SHORT).show();

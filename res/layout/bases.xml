@@ -59,22 +59,13 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:layout_toRightOf="@+id/imageCP"
-                android:layout_alignBottom="@+id/imageC"/>
+                android:layout_alignBottom="@+id/imageC"
+                android:text="-"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
-                android:id="@+id/textView6"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:layout_toRightOf="@+id/imageCP"
-                android:layout_above="@+id/imageRPP"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/"
+                android:text="- / -"
                 android:id="@+id/commandPointValue"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
@@ -89,7 +80,8 @@
                 android:layout_alignParentTop="true"
                 android:textColor="#0777b8"
                 android:textStyle="bold"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="5dp"
+                android:text="-"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -108,7 +100,8 @@
                 android:textColor="#0777b8"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/username"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="5dp"
+                android:text="-"/>
 
         <ImageView
                 android:layout_width="wrap_content"
@@ -125,7 +118,8 @@
                 android:layout_toRightOf="@+id/imageCP"
                 android:layout_alignBottom="@+id/imageRP"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:text="-"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -134,7 +128,8 @@
                 android:layout_toRightOf="@+id/imageRPP"
                 android:layout_alignBottom="@+id/imageCP"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:text="-"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -143,7 +138,8 @@
                 android:layout_toRightOf="@+id/imageRPP"
                 android:layout_alignBottom="@+id/imageC"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:text="-"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -152,14 +148,24 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:layout_toRightOf="@+id/imageRPP"
-                android:layout_below="@+id/imageC"/>
+                android:layout_below="@+id/imageC"
+                android:text="-"/>
     </RelativeLayout>
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-
+        <ProgressBar
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bases_load_progress"
+                android:layout_centerHorizontal="true"
+                android:layout_alignBottom="@+id/thumbnail"
+                android:indeterminate="true"
+                style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+                android:layout_alignRight="@+id/server_is_online"
+                android:layout_alignLeft="@+id/server_name"/>
         <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

@@ -12,15 +12,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.cnc.CnCTA.R;
 import com.cnc.model.Server;
+import com.cnc.model.base.City;
 
 import java.util.ArrayList;
 
-public class CityAdapter extends ArrayAdapter<String> {
+public class CityAdapter extends ArrayAdapter<City> {
 
 
     private final int layoutResourceId;
 
-    public CityAdapter(Context context, int layoutResourceId, ArrayList<String> objects) {
+    public CityAdapter(Context context, int layoutResourceId, ArrayList<City> objects) {
         super(context, layoutResourceId, objects);
         this.layoutResourceId = layoutResourceId;
     }
@@ -47,8 +48,8 @@ public class CityAdapter extends ArrayAdapter<String> {
         ImageView icon = (ImageView) row.findViewById(R.id.list_base_image);
         ImageView icon_potection = (ImageView) row.findViewById(R.id.list_base_protection_image);
 
-        String base = getItem(position);
-        name.setText(base);
+        City city = getItem(position);
+        name.setText(city.getName());
         level.setText(((int) (Math.random() * 40)) + "");
         baseCoordinates.setText(((int) (Math.random() * 1000)) + ":" + (((int) (Math.random() * 1000)) + ""));
         buildingCond.setText(((int) (Math.random() * 100)) + "%");

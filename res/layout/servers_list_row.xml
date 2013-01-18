@@ -31,7 +31,8 @@
             android:typeface="sans"
             android:textSize="15dip"
             android:textStyle="bold"
-            android:text="servername"/>
+            android:text="servername"
+            android:textColor="@android:color/white"/>
 
     <!-- Artist Name -->
     <TextView
@@ -42,7 +43,8 @@
             android:textSize="10dip"
             android:layout_marginTop="1dip"
             android:layout_toRightOf="@+id/thumbnail"
-            android:text="online"/>
+            android:text="online"
+            android:textColor="@android:color/white"/>
 
     <!-- Rightend Duration -->
     <TextView

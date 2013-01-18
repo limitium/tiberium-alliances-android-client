@@ -24,7 +24,7 @@ public class ServersFragment extends Fragment {
     public interface ServersProvider {
         public ArrayList<Server> getServers();
 
-        public void enterServer(Server server);
+        public void enterServer(Server server, ProgressBar progressBar);
     }
 
     ServersProvider provider;
@@ -61,7 +61,7 @@ public class ServersFragment extends Fragment {
                 Server server = (Server) (serversList.getItemAtPosition(position));
                 final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.server_enter_progress);
                 progressBar.setVisibility(View.VISIBLE);
-                provider.enterServer(server);
+                provider.enterServer(server, progressBar);
             }
         });
         return view;
