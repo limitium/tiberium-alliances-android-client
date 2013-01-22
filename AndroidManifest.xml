@@ -4,7 +4,7 @@
           android:versionName="1.0">
 
     <uses-sdk
-            android:minSdkVersion="11"
+            android:minSdkVersion="4"
             android:targetSdkVersion="15"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
@@ -13,10 +13,10 @@
             android:theme="@style/AppTheme">
         <activity
                 android:name=".LoginActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
                 android:label="@string/login_activity_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

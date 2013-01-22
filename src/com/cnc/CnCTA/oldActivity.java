@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.cnc.api.Authorizator;
+import com.cnc.api.CncApiException;
 import com.cnc.game.GameServer;
 
 public class oldActivity extends Activity implements
@@ -137,18 +138,23 @@ public class oldActivity extends Activity implements
             @Override
             protected String doInBackground(String... params) {
                 Log.d(TAG, params[0] + " " + params[1]);
-                return Authorizator.authorize(params[0], params[1], new Authorizator.Progress() {
-                    @Override
-                    public void onStep(final int step, final String msg) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                loginStatus.setText(msg);
-                                loginProgress.setProgress((int) (step * 1.8));
-                            }
-                        });
-                    }
-                });
+                try {
+                    return Authorizator.authorize(params[0], params[1], new Authorizator.Progress() {
+                        @Override
+                        public void onStep(final int step, final String msg) {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loginStatus.setText(msg);
+                                    loginProgress.setProgress((int) (step * 1.8));
+                                }
+                            });
+                        }
+                    });
+                } catch (CncApiException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                return null;
             }
 
             @Override

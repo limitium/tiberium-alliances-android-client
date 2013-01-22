@@ -1,12 +1,8 @@
 package com.cnc.CnCTA.fragment;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
+import android.support.v4.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
