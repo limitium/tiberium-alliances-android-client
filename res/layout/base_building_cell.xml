@@ -10,56 +10,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/building_image"
                 android:src="@drawable/base_airfield" android:scaleType="fitXY"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"/>
 
-        <LinearLayout
-                android:orientation="vertical"
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignBottom="@+id/building_image">
+                android:text="9"
+                android:id="@+id/building_level"
+                android:background="@drawable/text_border" android:textColor="@android:color/white"
+                android:paddingLeft="3dip" android:paddingRight="3dip"
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true" android:layout_alignBottom="@+id/building_image"/>
+        <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:id="@+id/building_bonus"
+                android:layout_centerInParent="true">
 
-            <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/building_bonus_icon"
+                    android:src="@drawable/bonus_pckg" android:scaleType="fitXY"/>
 
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/imageView"
-                        android:src="@drawable/bonus_pckg"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2"
-                        android:id="@+id/textView"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:singleLine="true"
-                        android:layout_alignRight="@+id/imageView"
-                        android:layout_alignBottom="@+id/imageView"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginRight="10dp"/>
-            </RelativeLayout>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="9"
-                    android:id="@+id/building_level"
-                    android:background="@drawable/text_border" android:textColor="@android:color/white"
-                    android:paddingLeft="3dip" android:paddingRight="3dip"
-                    android:layout_gravity="center"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="20dp"/>
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 </LinearLayout>

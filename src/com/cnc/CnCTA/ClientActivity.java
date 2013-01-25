@@ -29,8 +29,7 @@ public class ClientActivity extends Activity implements ServersFragment.ServersP
         setContentView(R.layout.game);
 
         servers = (ArrayList<Server>) getIntent().getSerializableExtra("servers");
-        gameServer = new GameServer();
-        gameClient = new Client(gameServer);
+        gameClient = new Client();
         final SharedPreferences sharedPref = getSharedPreferences(LoginActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
         gameServer.setHash(sharedPref.getString(LoginActivity.HASH_KEY, ""));
 
@@ -42,24 +41,24 @@ public class ClientActivity extends Activity implements ServersFragment.ServersP
     @Override
     public void enterServer(Server server, final ProgressBar progressBar) {
         gameServer.selectServer(server);
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                return ClientActivity.this.gameClient.openSession();
-            }
-
-            @Override
-            protected void onPostExecute(Boolean isOpen) {
-                if (isOpen) {
-                    progressBar.setVisibility(View.GONE);
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.main_container, new BasesFragment(gameClient));
-                    ft.commit();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Can't open server session.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
+//        new AsyncTask<Void, Void, Boolean>() {
+//            @Override
+//            protected Boolean doInBackground(Void... params) {
+//                return ClientActivity.this.gameClient.openSession();
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Boolean isOpen) {
+//                if (isOpen) {
+//                    progressBar.setVisibility(View.GONE);
+//                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                    ft.replace(R.id.main_container, new BasesFragment(gameClient));
+//                    ft.commit();
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Can't open server session.", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }.execute();
     }
 
     @Override

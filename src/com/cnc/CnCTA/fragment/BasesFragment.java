@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.cnc.CnCTA.R;
 import com.cnc.CnCTA.adapter.CityAdapter;
+import com.cnc.api.CncApiException;
 import com.cnc.game.Client;
 import com.cnc.game.GameServer;
 import com.cnc.model.Player;
@@ -51,7 +52,11 @@ public class BasesFragment extends Fragment {
         new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
-                client.updateAllData();
+                try {
+                    client.updateAllData();
+                } catch (CncApiException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
                 return true;
             }
 
