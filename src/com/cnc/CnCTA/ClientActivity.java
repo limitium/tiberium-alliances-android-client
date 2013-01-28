@@ -15,6 +15,7 @@ import com.cnc.CnCTA.fragment.ServersFragment;
 import com.cnc.CnCTA.helper.ErrorHandler;
 import com.cnc.game.Client;
 import com.cnc.model.Server;
+import com.cnc.model.base.City;
 
 import java.util.ArrayList;
 
@@ -74,5 +75,9 @@ public class ClientActivity extends FragmentActivity implements ErrorHandler.Han
     public void loadImage(ImageView holder, String resource) {
         int imageResource = this.getResources().getIdentifier("@drawable/" + resource, null, this.getPackageName());
         holder.setImageResource(imageResource);
+    }
+
+    public void openCity(City city) {
+        showFragment(baseFragment);
     }
 }

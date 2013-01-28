@@ -7,10 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.cnc.CnCTA.ClientActivity;
 import com.cnc.CnCTA.R;
 import com.cnc.CnCTA.adapter.CityAdapter;
@@ -18,6 +15,7 @@ import com.cnc.CnCTA.helper.ErrorHandler;
 import com.cnc.api.CncApiException;
 import com.cnc.game.Client;
 import com.cnc.model.Player;
+import com.cnc.model.Server;
 import com.cnc.model.base.City;
 
 import java.text.DecimalFormat;
@@ -48,9 +46,16 @@ public class BasesFragment extends Fragment {
         View view = inflater.inflate(R.layout.bases, container, false);
 
 
-        ListView serversList = (ListView) view.findViewById(R.id.listBases);
+        final ListView basesList = (ListView) view.findViewById(R.id.listBases);
         CityAdapter adapter = new CityAdapter(client.getPlayer(), activity, R.layout.base_list_row, bases);
-        serversList.setAdapter(adapter);
+        basesList.setAdapter(adapter);
+        basesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                City city = (City) (basesList.getItemAtPosition(position));
+                activity.openCity(city);
+            }
+        });
         loadData(view);
         return view;
     }

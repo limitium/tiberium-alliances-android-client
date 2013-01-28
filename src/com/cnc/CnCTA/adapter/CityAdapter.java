@@ -55,8 +55,8 @@ public class CityAdapter extends ArrayAdapter<City> {
         name.setText(city.getName());
         level.setText(String.valueOf((int) city.getLevel()));
         baseCoordinates.setText(city.getX() + ":" + city.getY());
-        buildingCond.setText("100%");
-        defenceCond.setText("100%");
+        buildingCond.setText("100");
+        defenceCond.setText("100");
 
         activity.loadImage(icon_base, player.getFraction() + city.getTier());
         activity.loadImage(icon_protection, "protection_" + player.getFraction());

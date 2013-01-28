@@ -61,7 +61,7 @@
             android:layout_alignLeft="@+id/base_name"
             android:layout_below="@+id/base_name"
             android:layout_margin="1dip"
-            />
+            android:src="@drawable/pckg_next"/>
 
     <ImageView
             android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buildings: 100%"
+            android:text="Buildings: "
             android:id="@+id/buildings_cond"
             android:layout_alignLeft="@+id/base_name"
             android:layout_below="@+id/status_icon1"
@@ -92,7 +92,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Defence: 100%"
+            android:text="Defence: "
             android:id="@+id/defence_cond"
             android:layout_alignLeft="@+id/base_name"
             android:layout_below="@+id/buildings_cond"
@@ -102,15 +102,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/defence_cond_value"
-            android:layout_toRightOf="@+id/status_icon3"
-            android:layout_below="@+id/buildings_cond"/>
+            android:text="100"
+            android:layout_toRightOf="@+id/buildings_cond"
+            android:layout_alignBottom="@+id/defence_cond"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buildings_cond_value"
-            android:layout_toRightOf="@+id/status_icon3"
-            android:layout_below="@+id/status_icon1"/>
+            android:text="100"
+            android:layout_toRightOf="@+id/buildings_cond"
+            android:layout_alignBottom="@+id/buildings_cond"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -127,6 +129,23 @@
             android:text="134"
             android:layout_alignRight="@+id/base_coords"
             android:layout_alignBottom="@+id/base_name"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%"
+            android:id="@+id/textView"
+            android:layout_toLeftOf="@+id/base_coords"
+            android:layout_toRightOf="@+id/defence_cond_value"
+            android:layout_alignBottom="@+id/defence_cond_value"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%"
+            android:id="@+id/textView1"
+            android:layout_toRightOf="@+id/buildings_cond_value"
+            android:layout_alignBottom="@+id/buildings_cond_value"/>
 
     <!-- Rightend Duration -->
 
