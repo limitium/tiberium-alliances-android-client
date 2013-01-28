@@ -8,17 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.cnc.CnCTA.R;
+import com.cnc.model.Server;
+import com.cnc.model.base.Building;
+import com.cnc.model.base.BuildingType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class BuildingAdapter extends ArrayAdapter<String> {
+public class BuildingAdapter extends ArrayAdapter<Building> {
 
     private final int layoutResourceId;
     private Point cellSize;
+    private final HashMap<BuildingType, Integer> buildingIconMap;
 
-    public BuildingAdapter(Context context, int layoutResourceId, ArrayList<String> objects) {
-        super(context, layoutResourceId, objects);
+    public BuildingAdapter(Context context, int layoutResourceId, ArrayList<Building> buildings, HashMap<BuildingType, Integer> buildingIconMap) {
+        super(context, layoutResourceId, buildings);
         this.layoutResourceId = layoutResourceId;
+        this.buildingIconMap = buildingIconMap;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -29,16 +35,27 @@ public class BuildingAdapter extends ArrayAdapter<String> {
             row = inflater.inflate(layoutResourceId, parent, false);
         }
 
+
         ImageView icon = (ImageView) row.findViewById(R.id.building_image);
         TextView level = (TextView) row.findViewById(R.id.building_level);
-
-
         ImageView bonusIcon = (ImageView) row.findViewById(R.id.building_bonus_icon);
-        if (Math.random() > 0.7) {
-            bonusIcon.setImageResource(Math.random() > 0.5 ? R.drawable.bonus_pckg_1 : R.drawable.bonus_pckg_2);
+
+        Building building = getItem(position);
+        if (building != null) {
+            level.setText(String.valueOf(building.getLevel()));
+            icon.setImageResource(buildingIconMap.get(building.getType()));
+            bonusIcon.setVisibility(View.GONE);
         } else {
             bonusIcon.setVisibility(View.GONE);
+            icon.setVisibility(View.GONE);
+            level.setVisibility(View.GONE);
         }
+
+//        if (Math.random() > 0.7) {
+//            bonusIcon.setImageResource(Math.random() > 0.5 ? R.drawable.bonus_pckg_1 : R.drawable.bonus_pckg_2);
+//        } else {
+//            bonusIcon.setVisibility(View.GONE);
+//        }
 
         calculateLayout(row, level);
 

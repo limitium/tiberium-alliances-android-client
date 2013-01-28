@@ -113,14 +113,14 @@
 
         <GridLayout
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="false"
                 android:columnCount="1"
                 android:rowCount="4"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="false"
                 android:layout_alignWithParentIfMissing="false"
-                android:layout_below="@+id/gridLayout">
+                android:layout_below="@+id/gridLayout" android:id="@+id/gridLayout1">
 
             <ImageView
                     android:layout_width="wrap_content"
@@ -156,12 +156,12 @@
         </GridLayout>
 
         <GridLayout
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:columnCount="5"
+                android:columnCount="6"
                 android:rowCount="1"
                 android:layout_alignLeft="@+id/imageView"
-                android:layout_alignBottom="@+id/imageView">
+                android:layout_alignBottom="@+id/imageView" android:id="@+id/gridLayout2">
 
             <TextView
                     android:layout_width="wrap_content"
@@ -177,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="7.45"
-                    android:id="@+id/textView"
+                    android:id="@+id/base_level"
                     android:layout_row="0"
                     android:layout_column="1"
                     android:textColor="@android:color/white"
@@ -196,12 +196,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="23/44"
-                    android:id="@+id/textView1"
+                    android:id="@+id/building_limit"
                     android:layout_row="0"
                     android:layout_column="3"
                     android:textStyle="bold"
                     android:textColor="@android:color/white"
                     android:layout_gravity="center_vertical"/>
+        </GridLayout>
+        <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_alignRight="@+id/imageView"
+                android:layout_alignBottom="@+id/imageView" android:columnCount="1" android:rowCount="1"
+                android:layout_alignTop="@+id/gridLayout2">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="basename"
+                    android:id="@+id/base_name"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_vertical"
+                    android:layout_alignLeft="@+id/imageView" android:layout_alignParentTop="true"
+                    />
         </GridLayout>
     </RelativeLayout>
 

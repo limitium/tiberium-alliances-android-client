@@ -18,7 +18,7 @@ import com.cnc.model.Server;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends Activity implements ErrorHandler.HandleActivity{
+public class LoginActivity extends Activity implements ErrorHandler.HandleActivity {
 
     public final String TAG = "CnCTA:Login";
 
@@ -68,9 +68,15 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
 
         loginStatus.setVisibility(View.GONE);
         loginProgress.setVisibility(View.GONE);
+
+        String hash = sharedPref.getString(LoginActivity.HASH_KEY, "");
+        if (!hash.isEmpty()) {
+            loadServers(hash);
+        }
     }
 
     private void authorize(String login, String password) {
+        startLoginProcess();
         setStatus("", 0);
 
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -78,9 +84,6 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
         editor.putString(LoginActivity.PASSWORD_KEY, password);
         editor.commit();
 
-        loginStatus.setVisibility(View.VISIBLE);
-        loginProgress.setVisibility(View.VISIBLE);
-        loginButton.setVisibility(View.GONE);
 
         new AsyncTask<String, Void, String>() {
             @Override
@@ -117,13 +120,10 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
         }.execute(login, password);
     }
 
-    private void showError(final CncApiException e) {
-        errorHandler.showError(e);
-    }
-
 
     private void loadServers(String hash) {
-        setStatus("Get servers");
+        startLoginProcess();
+        setStatus("Get servers", 90);
         gameClient.setHash(hash);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(LoginActivity.HASH_KEY, hash);
@@ -152,6 +152,12 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
         }.execute();
     }
 
+    private void startLoginProcess() {
+        loginProgress.setVisibility(View.VISIBLE);
+        loginStatus.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.GONE);
+    }
+
 
     private void startGameActivity(ArrayList<Server> result) {
         setStatus("Launching game", 100);
@@ -164,9 +170,6 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
         loginProgress.setVisibility(View.GONE);
     }
 
-    private void setStatus(String status) {
-        loginStatus.setText(status);
-    }
 
     private void setStatus(String status, int progress) {
         loginProgress.setProgress(progress);

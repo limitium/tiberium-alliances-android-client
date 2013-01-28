@@ -12,6 +12,7 @@ import com.cnc.CnCTA.ClientActivity;
 import com.cnc.CnCTA.R;
 import com.cnc.CnCTA.adapter.CityAdapter;
 import com.cnc.CnCTA.helper.ErrorHandler;
+import com.cnc.CnCTA.helper.Formater;
 import com.cnc.api.CncApiException;
 import com.cnc.game.Client;
 import com.cnc.model.Player;
@@ -95,12 +96,11 @@ public class BasesFragment extends Fragment {
                     activity.loadImage(combatPointsIcon, "command_point_" + player.getFraction());
 
                     username.setText(player.getName());
-                    NumberFormat numberFormat = new DecimalFormat("#.##");
-                    supplyPoints.setText(numberFormat.format(player.getSupplyPoint().getValue()) + " / " + player.getSupplyPoint().getMax());
-                    combatPoints.setText(numberFormat.format(player.getCombatPoint().getValue()) + " / " + player.getCombatPoint().getMax());
-                    creditPoints.setText(numberFormat.format(player.getCredits().getValue()));
-                    researchPoints.setText(numberFormat.format(player.getResearchPoint()));
-                    rank.setText(numberFormat.format(player.getRating()));
+                    supplyPoints.setText(Formater.number(player.getSupplyPoint().getValue()) + " / " + player.getSupplyPoint().getMax());
+                    combatPoints.setText(Formater.number(player.getCombatPoint().getValue()) + " / " + player.getCombatPoint().getMax());
+                    creditPoints.setText(Formater.number(player.getCredits().getValue()));
+                    researchPoints.setText(Formater.number(player.getResearchPoint()));
+                    rank.setText(Formater.number(player.getRating()));
 
                     for (Map.Entry<Long, City> entry : BasesFragment.this.client.getCities().entrySet()) {
                         BasesFragment.this.bases.add(entry.getValue());

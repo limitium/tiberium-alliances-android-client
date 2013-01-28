@@ -3,6 +3,7 @@ package com.cnc.CnCTA;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ public class ClientActivity extends FragmentActivity implements ErrorHandler.Han
     private ServersFragment serversFragment;
     private BaseFragment baseFragment;
     private BasesFragment basesFragment;
+    private Fragment currentFragment;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,7 @@ public class ClientActivity extends FragmentActivity implements ErrorHandler.Han
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.main_container, fragment);
         ft.commit();
+        currentFragment = fragment;
     }
 
 
@@ -78,6 +81,15 @@ public class ClientActivity extends FragmentActivity implements ErrorHandler.Han
     }
 
     public void openCity(City city) {
+        baseFragment.setCity(city);
         showFragment(baseFragment);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (currentFragment.equals(baseFragment)) {
+            baseFragment.updateGridMargins();
+        }
     }
 }
