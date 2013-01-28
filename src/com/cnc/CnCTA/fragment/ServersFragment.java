@@ -1,10 +1,10 @@
 package com.cnc.CnCTA.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +15,19 @@ import android.widget.TextView;
 import com.cnc.CnCTA.LoginActivity;
 import com.cnc.CnCTA.R;
 import com.cnc.CnCTA.adapter.ServerAdapter;
+import com.cnc.game.Client;
 import com.cnc.model.Server;
 
 import java.util.ArrayList;
 
 
 public class ServersFragment extends Fragment {
+    private final Client gameClient;
+
+    public ServersFragment(Client gameClient) {
+        this.gameClient = gameClient;
+    }
+
     public interface ServersProvider {
         public ArrayList<Server> getServers();
 

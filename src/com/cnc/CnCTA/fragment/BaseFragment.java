@@ -1,6 +1,5 @@
 package com.cnc.CnCTA.fragment;
 
-import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -10,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.cnc.CnCTA.R;
 import com.cnc.CnCTA.adapter.BuildingAdapter;
+import com.cnc.game.Client;
+import com.cnc.model.base.Building;
 import com.cnc.model.base.BuildingType;
 
 import java.util.ArrayList;
@@ -20,13 +21,28 @@ public class BaseFragment extends Fragment {
     private GridView buildingsGrid;
     private BuildingAdapter buildingAdapter;
     private ArrayList<String> buildings;
+    private Building[] buildings2;
     private HashMap<BuildingType, Integer> buildingIconMap = new HashMap<BuildingType, Integer>();
+    private final Client gameClient;
+
+    public BaseFragment(Client gameClient) {
+        this.gameClient = gameClient;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         buildingIconMap.put(BuildingType.CONSTRUCTION_YARD, R.drawable.base_construction_yard);
         buildingIconMap.put(BuildingType.ACCUMULATOR, R.drawable.base_accumulator);
         buildingIconMap.put(BuildingType.AIRFIELD, R.drawable.base_airfield);
+        buildingIconMap.put(BuildingType.BARRACKS, R.drawable.base_barracks);
+        buildingIconMap.put(BuildingType.DEFENCE_FACILITY, R.drawable.base_defense_facility);
+        buildingIconMap.put(BuildingType.DEFENCE_HQ, R.drawable.base_defense_hq);
+        buildingIconMap.put(BuildingType.FACTORY, R.drawable.base_factory);
+        buildingIconMap.put(BuildingType.HARVESTER, R.drawable.base_harvester2);
+        buildingIconMap.put(BuildingType.POWER_PLANT, R.drawable.base_power_plant);
+        buildingIconMap.put(BuildingType.REFINARY, R.drawable.base_refinery);
+        buildingIconMap.put(BuildingType.SILO, R.drawable.base_silo);
+        buildingIconMap.put(BuildingType.STRIKE_SUPPORT, R.drawable.base_strike_support);
 
         View view = inflater.inflate(R.layout.base, container, false);
 
@@ -40,6 +56,7 @@ public class BaseFragment extends Fragment {
             buildings.add("");
         }
 
+//        int i = x + y * x;
         updateGridMargins();
         return view;
     }

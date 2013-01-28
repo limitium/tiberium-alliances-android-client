@@ -1,9 +1,7 @@
 package com.cnc.CnCTA;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -19,7 +17,7 @@ import com.cnc.model.Server;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements ErrorHandler.HandleActivity{
 
     public final String TAG = "CnCTA:Login";
 
@@ -27,6 +25,7 @@ public class LoginActivity extends Activity {
     public static final String PASSWORD_KEY = "PASSWORD";
     public static final String HASH_KEY = "HASH";
     public static final String SHARED_PREFERENCES_KEY = "AUTH";
+    private final ErrorHandler errorHandler = new ErrorHandler(this);
     private Client gameClient;
 
     private EditText passwordInput;
@@ -99,7 +98,7 @@ public class LoginActivity extends Activity {
                         }
                     });
                 } catch (final CncApiException e) {
-                    showError(e);
+                    errorHandler.showError(e);
                 }
                 return null;
             }
@@ -118,20 +117,7 @@ public class LoginActivity extends Activity {
     }
 
     private void showError(final CncApiException e) {
-        interfaceHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setTitle("Error!");
-                builder.setMessage(e.getMessage());
-                builder.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-                builder.create().show();
-            }
-        });
+        errorHandler.showError(e);
     }
 
 
@@ -148,7 +134,7 @@ public class LoginActivity extends Activity {
                 try {
                     return LoginActivity.this.gameClient.updateServers();
                 } catch (CncApiException e) {
-                    showError(e);
+                    errorHandler.showError(e);
                 }
                 return null;
             }
@@ -186,4 +172,13 @@ public class LoginActivity extends Activity {
         loginStatus.setText(status);
     }
 
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    public Handler getHandler() {
+        return interfaceHandler;
+    }
 }
