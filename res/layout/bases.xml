@@ -15,10 +15,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageCP"
-                android:src="@drawable/command_point"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="5dp"
-                android:layout_below="@+id/username"/>
+                android:layout_below="@+id/username"
+                android:src="@drawable/command_point_n"/>
 
         <ImageView
                 android:layout_width="wrap_content"
@@ -47,10 +47,10 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageRP"
-                android:src="@drawable/resource_pckg"
-                android:layout_alignLeft="@+id/imageCP"
-                android:layout_below="@+id/imageC"/>
+                android:id="@+id/imageChat"
+                android:layout_below="@+id/imageC"
+                android:src="@drawable/chat"
+                android:layout_alignLeft="@+id/imageCP"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -59,18 +59,20 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:layout_toRightOf="@+id/imageCP"
+                android:text="-"
                 android:layout_alignBottom="@+id/imageC"
-                android:text="-"/>
+                android:singleLine="true"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- / -"
+                android:text="-"
                 android:id="@+id/commandPointValue"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:layout_toRightOf="@+id/imageCP"
-                android:layout_alignBottom="@+id/imageCP"/>
+                android:layout_alignBottom="@+id/imageCP"
+                android:singleLine="true"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -81,7 +83,8 @@
                 android:textColor="#0777b8"
                 android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:text="-"/>
+                android:text="-"
+                android:singleLine="true"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +94,8 @@
                 android:textColor="#0777b8"
                 android:textStyle="bold"
                 android:layout_toLeftOf="@+id/rankingValue"
-                android:layout_alignTop="@+id/username"/>
+                android:layout_alignTop="@+id/username"
+                android:singleLine="true"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -101,55 +105,42 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/username"
                 android:layout_marginRight="5dp"
-                android:text="-"/>
-
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageM"
-                android:src="@drawable/chat"
-                android:layout_alignLeft="@+id/imageRPP"
-                android:layout_below="@+id/imageC"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/packageValue"
-                android:layout_toRightOf="@+id/imageCP"
-                android:layout_alignBottom="@+id/imageRP"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:text="-"/>
+                android:text="-"
+                android:singleLine="true"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/supplyPointValue"
-                android:layout_toRightOf="@+id/imageRPP"
-                android:layout_alignBottom="@+id/imageCP"
+                android:layout_toRightOf="@+id/imageSP"
+                android:layout_alignBottom="@+id/imageSP"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
-                android:text="-"/>
+                android:text="-"
+                android:singleLine="true"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/researchPointValue"
                 android:layout_toRightOf="@+id/imageRPP"
-                android:layout_alignBottom="@+id/imageC"
+                android:layout_alignBottom="@+id/imageRPP"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
-                android:text="-"/>
+                android:text="-"
+                android:singleLine="true"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/messageValue"
-                android:textStyle="bold"
+                android:text="-"
+                android:id="@+id/msgCount"
+                android:layout_toRightOf="@+id/imageCP"
                 android:textColor="@android:color/black"
-                android:layout_toRightOf="@+id/imageRPP"
-                android:layout_below="@+id/imageC"
-                android:text="-"/>
+                android:textStyle="bold"
+                android:layout_alignBottom="@+id/imageChat"
+                android:singleLine="true"/>
+
     </RelativeLayout>
 
     <LinearLayout

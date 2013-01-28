@@ -40,7 +40,8 @@
             android:textSize="17dip"
             android:textStyle="bold"
             android:layout_toRightOf="@+id/thumbnail"
-            android:layout_alignTop="@+id/thumbnail"/>
+            android:layout_alignTop="@+id/thumbnail"
+            android:text="Basename"/>
 
     <!-- Artist Name -->
     <TextView
@@ -50,7 +51,8 @@
             android:textSize="10dip"
             android:textColor="#0777b8"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/base_name"/>
+            android:layout_below="@+id/base_name"
+            android:text="100:500"/>
 
     <ImageView
             android:layout_width="wrap_content"
@@ -81,18 +83,20 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buildings:"
+            android:text="Buildings: 100%"
             android:id="@+id/buildings_cond"
             android:layout_alignLeft="@+id/base_name"
-            android:layout_below="@+id/status_icon1"/>
+            android:layout_below="@+id/status_icon1"
+            android:singleLine="true"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Defence:"
+            android:text="Defence: 100%"
             android:id="@+id/defence_cond"
             android:layout_alignLeft="@+id/base_name"
-            android:layout_below="@+id/buildings_cond"/>
+            android:layout_below="@+id/buildings_cond"
+            android:singleLine="true"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -113,14 +117,15 @@
             android:layout_height="wrap_content"
             android:text="lvl:"
             android:id="@+id/level_label"
-            android:layout_toRightOf="@+id/defence_cond_value"
+            android:layout_toLeftOf="@+id/base_level"
             android:layout_alignBottom="@+id/base_name"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/base_level"
-            android:layout_toRightOf="@+id/level_label"
+            android:text="134"
+            android:layout_alignRight="@+id/base_coords"
             android:layout_alignBottom="@+id/base_name"/>
 
     <!-- Rightend Duration -->

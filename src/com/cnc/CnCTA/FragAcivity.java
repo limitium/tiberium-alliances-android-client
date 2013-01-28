@@ -15,9 +15,9 @@ public class FragAcivity extends FragmentActivity {
         setContentView(R.layout.game);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        baseFragment = new BaseFragment();
-        ft.replace(R.id.main_container, baseFragment);
-        ft.commit();
+//        baseFragment = new BaseFragment();
+//        ft.replace(R.id.main_container, baseFragment);
+//        ft.commit();
     }
 
     @Override

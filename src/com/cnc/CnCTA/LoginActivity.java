@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import com.cnc.CnCTA.helper.ErrorHandler;
 import com.cnc.api.Authorizator;
 import com.cnc.api.CncApiException;
 import com.cnc.game.Client;
