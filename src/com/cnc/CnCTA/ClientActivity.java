@@ -50,16 +50,20 @@ public class ClientActivity extends FragmentActivity implements ErrorHandler.Han
         basesFragment = new BasesFragment(gameClient, errorHandler);
         baseFragment = new BaseFragment(gameClient, errorHandler);
 
-        showFragment(serversFragment);
+        showFragment(serversFragment, false);
     }
 
     public void showBases() {
-        showFragment(basesFragment);
+        showFragment(basesFragment, true);
+        basesFragment.setLoaded(false);
     }
 
-    private void showFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment, boolean addToStack) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.main_container, fragment);
+        if (addToStack) {
+            ft.addToBackStack(null);
+        }
         ft.commit();
         currentFragment = fragment;
     }
@@ -82,7 +86,7 @@ public class ClientActivity extends FragmentActivity implements ErrorHandler.Han
 
     public void openCity(City city) {
         baseFragment.setCity(city);
-        showFragment(baseFragment);
+        showFragment(baseFragment, true);
     }
 
     @Override

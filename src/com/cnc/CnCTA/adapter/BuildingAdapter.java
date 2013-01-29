@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.cnc.CnCTA.R;
-import com.cnc.model.Server;
-import com.cnc.model.base.Building;
-import com.cnc.model.base.BuildingType;
+import com.cnc.model.base.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,11 +18,15 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
     private final int layoutResourceId;
     private Point cellSize;
     private final HashMap<BuildingType, Integer> buildingIconMap;
+    private final City city;
+    private final HashMap<ResourceFieldType, Integer> resourceFieldIconMap;
 
-    public BuildingAdapter(Context context, int layoutResourceId, ArrayList<Building> buildings, HashMap<BuildingType, Integer> buildingIconMap) {
+    public BuildingAdapter(Context context, int layoutResourceId, City city, ArrayList<Building> buildings, HashMap<BuildingType, Integer> buildingIconMap, HashMap<ResourceFieldType, Integer> resourceFieldIconMap) {
         super(context, layoutResourceId, buildings);
         this.layoutResourceId = layoutResourceId;
         this.buildingIconMap = buildingIconMap;
+        this.resourceFieldIconMap = resourceFieldIconMap;
+        this.city = city;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -37,6 +39,7 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
 
 
         ImageView icon = (ImageView) row.findViewById(R.id.building_image);
+        ImageView resrouceIcon = (ImageView) row.findViewById(R.id.resource_image);
         TextView level = (TextView) row.findViewById(R.id.building_level);
         ImageView bonusIcon = (ImageView) row.findViewById(R.id.building_bonus_icon);
 
@@ -49,6 +52,15 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
             bonusIcon.setVisibility(View.GONE);
             icon.setVisibility(View.GONE);
             level.setVisibility(View.GONE);
+        }
+        int x = position % 9;
+        int y = position / 9;
+
+        ResourceField resourceFiled = city.getResourceFiled(x, y);
+        if (resourceFiled != null) {
+            resrouceIcon.setImageResource(resourceFieldIconMap.get(resourceFiled.getType()));
+        } else {
+            resrouceIcon.setVisibility(View.GONE);
         }
 
 //        if (Math.random() > 0.7) {

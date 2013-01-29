@@ -16,19 +16,16 @@ import com.cnc.CnCTA.helper.Formater;
 import com.cnc.api.CncApiException;
 import com.cnc.game.Client;
 import com.cnc.model.Player;
-import com.cnc.model.Server;
 import com.cnc.model.base.City;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class BasesFragment extends Fragment {
     private final Client client;
     private final ArrayList<City> bases = new ArrayList<City>();
     private final ErrorHandler errorHandler;
     private ClientActivity activity;
+    private boolean loaded = false;
 
     public BasesFragment(Client client, ErrorHandler errorHandler) {
         this.client = client;
@@ -61,19 +58,23 @@ public class BasesFragment extends Fragment {
         return view;
     }
 
-    public void loadData(View view) {
-        final ListView serversList = (ListView) view.findViewById(R.id.listBases);
-        final TextView username = (TextView) view.findViewById(R.id.username);
-        final TextView supplyPoints = (TextView) view.findViewById(R.id.supplyPointValue);
+    public void loadData(final View view) {
         final ImageView combatPointsIcon = (ImageView) view.findViewById(R.id.imageCP);
-        final TextView combatPoints = (TextView) view.findViewById(R.id.commandPointValue);
-        final TextView creditPoints = (TextView) view.findViewById(R.id.creditValue);
-        final TextView researchPoints = (TextView) view.findViewById(R.id.researchPointValue);
-        final TextView rank = (TextView) view.findViewById(R.id.rankingValue);
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.bases_load_progress);
+        final ListView serversList = (ListView) view.findViewById(R.id.listBases);
+
+        progressBar.setVisibility(View.GONE);
+        bases.clear();
+        ((CityAdapter) serversList.getAdapter()).notifyDataSetChanged();
+
+        if (loaded) {
+            updateUI(view);
+            return;
+        }
 
         activity.loadImage(combatPointsIcon, "transparent_24");
         progressBar.setVisibility(View.VISIBLE);
+
 
         new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -91,23 +92,39 @@ public class BasesFragment extends Fragment {
             protected void onPostExecute(Boolean done) {
                 progressBar.setVisibility(View.GONE);
                 if (done) {
-                    Player player = BasesFragment.this.client.getPlayer();
-
-                    activity.loadImage(combatPointsIcon, "command_point_" + player.getFraction());
-
-                    username.setText(player.getName());
-                    supplyPoints.setText(Formater.number(player.getSupplyPoint().getValue()) + " / " + player.getSupplyPoint().getMax());
-                    combatPoints.setText(Formater.number(player.getCombatPoint().getValue()) + " / " + player.getCombatPoint().getMax());
-                    creditPoints.setText(Formater.number(player.getCredits().getValue()));
-                    researchPoints.setText(Formater.number(player.getResearchPoint()));
-                    rank.setText(Formater.number(player.getRating()));
-
-                    for (Map.Entry<Long, City> entry : BasesFragment.this.client.getCities().entrySet()) {
-                        BasesFragment.this.bases.add(entry.getValue());
-                    }
-                    ((CityAdapter) serversList.getAdapter()).notifyDataSetChanged();
+                    BasesFragment.this.loaded = true;
+                    updateUI(view);
                 }
             }
         }.execute();
+    }
+
+    private void updateUI(View view) {
+        final ListView serversList = (ListView) view.findViewById(R.id.listBases);
+        final TextView username = (TextView) view.findViewById(R.id.username);
+        final TextView supplyPoints = (TextView) view.findViewById(R.id.supplyPointValue);
+        final ImageView combatPointsIcon = (ImageView) view.findViewById(R.id.imageCP);
+        final TextView combatPoints = (TextView) view.findViewById(R.id.commandPointValue);
+        final TextView creditPoints = (TextView) view.findViewById(R.id.creditValue);
+        final TextView researchPoints = (TextView) view.findViewById(R.id.researchPointValue);
+        final TextView rank = (TextView) view.findViewById(R.id.rankingValue);
+
+        Player player = client.getPlayer();
+
+        activity.loadImage(combatPointsIcon, "command_point_" + player.getFraction());
+
+        username.setText(player.getName());
+        supplyPoints.setText(Formater.number(player.getSupplyPoint().getValue()) + " / " + player.getSupplyPoint().getMax());
+        combatPoints.setText(Formater.number(player.getCombatPoint().getValue()) + " / " + player.getCombatPoint().getMax());
+        creditPoints.setText(Formater.number(player.getCredits().getValue()));
+        researchPoints.setText(Formater.number(player.getResearchPoint()));
+        rank.setText(Formater.number(player.getRating()));
+
+        bases.addAll(client.getCities().values());
+        ((CityAdapter) serversList.getAdapter()).notifyDataSetChanged();
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
     }
 }

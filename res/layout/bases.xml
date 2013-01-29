@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/listBases"
                 android:choiceMode="singleChoice"
-                android:listSelector="@android:color/holo_green_dark"
+                android:listSelector="@drawable/server_selector"
                 android:longClickable="true"/>
     </LinearLayout>
 </LinearLayout>

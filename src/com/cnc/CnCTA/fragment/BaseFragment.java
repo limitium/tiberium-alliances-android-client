@@ -15,6 +15,7 @@ import com.cnc.game.Client;
 import com.cnc.model.base.Building;
 import com.cnc.model.base.BuildingType;
 import com.cnc.model.base.City;
+import com.cnc.model.base.ResourceFieldType;
 import com.cnc.model.resources.CityResourceType;
 
 import java.util.*;
@@ -24,6 +25,10 @@ public class BaseFragment extends Fragment {
     private GridView buildingsGrid;
     private BuildingAdapter buildingAdapter;
     private ArrayList<Building> buildings = new ArrayList<Building>();
+    private HashMap<ResourceFieldType, Integer> resourceFieldIconMap = new HashMap<ResourceFieldType, Integer>() {{
+        put(ResourceFieldType.CRYSTAL, R.drawable.base_crystal);
+        put(ResourceFieldType.TIBERIUM, R.drawable.base_tiberium);
+    }};
     private HashMap<BuildingType, Integer> buildingIconMap = new HashMap<BuildingType, Integer>() {{
         put(BuildingType.CONSTRUCTION_YARD, R.drawable.base_construction_yard);
         put(BuildingType.ACCUMULATOR, R.drawable.base_accumulator);
@@ -78,7 +83,7 @@ public class BaseFragment extends Fragment {
             buildings.set((int) (building.getX() + building.getY() * 9), building);
         }
 
-        buildingAdapter = new BuildingAdapter(getActivity(), R.layout.base_building_cell, buildings, buildingIconMap);
+        buildingAdapter = new BuildingAdapter(getActivity(), R.layout.base_building_cell, city, buildings, buildingIconMap,resourceFieldIconMap);
         buildingsGrid.setAdapter(buildingAdapter);
         updateGridMargins();
         return view;
