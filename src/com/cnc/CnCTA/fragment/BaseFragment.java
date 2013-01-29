@@ -26,8 +26,8 @@ public class BaseFragment extends Fragment {
     private BuildingAdapter buildingAdapter;
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private HashMap<ResourceFieldType, Integer> resourceFieldIconMap = new HashMap<ResourceFieldType, Integer>() {{
-        put(ResourceFieldType.CRYSTAL, R.drawable.base_crystal);
-        put(ResourceFieldType.TIBERIUM, R.drawable.base_tiberium);
+        put(ResourceFieldType.CRYSTAL, R.drawable.crystal_base);
+        put(ResourceFieldType.TIBERIUM, R.drawable.tiberium_base2);
     }};
     private HashMap<BuildingType, Integer> buildingIconMap = new HashMap<BuildingType, Integer>() {{
         put(BuildingType.CONSTRUCTION_YARD, R.drawable.base_construction_yard);
@@ -83,7 +83,7 @@ public class BaseFragment extends Fragment {
             buildings.set((int) (building.getX() + building.getY() * 9), building);
         }
 
-        buildingAdapter = new BuildingAdapter(getActivity(), R.layout.base_building_cell, city, buildings, buildingIconMap,resourceFieldIconMap);
+        buildingAdapter = new BuildingAdapter(getActivity(), R.layout.base_building_cell, city, buildings, buildingIconMap, resourceFieldIconMap);
         buildingsGrid.setAdapter(buildingAdapter);
         updateGridMargins();
         return view;
