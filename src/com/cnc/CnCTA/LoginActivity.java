@@ -71,7 +71,7 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
 
         String hash = sharedPref.getString(LoginActivity.HASH_KEY, "");
         if (!hash.isEmpty()) {
-            loadServers(hash);
+            loadServers(hash, true);
         }
     }
 
@@ -111,9 +111,9 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
             protected void onPostExecute(String hash) {
                 Log.d(TAG, "Hash " + hash);
                 if (hash != null) {
-                    LoginActivity.this.loadServers(hash);
+                    LoginActivity.this.loadServers(hash, false);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Can't take token.", Toast.LENGTH_SHORT).show();
+                    toast("Can't take token.");
                     loginButton.setVisibility(View.VISIBLE);
                 }
             }
@@ -121,7 +121,7 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
     }
 
 
-    private void loadServers(String hash) {
+    private void loadServers(String hash, final boolean fromSavedHash) {
         startLoginProcess();
         setStatus("Get servers", 90);
         gameClient.setHash(hash);
@@ -135,7 +135,9 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
                 try {
                     return LoginActivity.this.gameClient.updateServers();
                 } catch (CncApiException e) {
-                    errorHandler.showError(e);
+                    if (!fromSavedHash) {
+                        errorHandler.showError(e);
+                    }
                 }
                 return null;
             }
@@ -143,13 +145,17 @@ public class LoginActivity extends Activity implements ErrorHandler.HandleActivi
             @Override
             protected void onPostExecute(ArrayList<Server> servers) {
                 if (servers == null || servers.size() == 0) {
-                    Toast.makeText(getApplicationContext(), "No servers found.", Toast.LENGTH_SHORT).show();
+                    toast(fromSavedHash ? "Hash expired." : "No servers found.");
                 } else {
                     startGameActivity(servers);
                 }
                 loginButton.setVisibility(View.VISIBLE);
             }
         }.execute();
+    }
+
+    private void toast(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     private void startLoginProcess() {
