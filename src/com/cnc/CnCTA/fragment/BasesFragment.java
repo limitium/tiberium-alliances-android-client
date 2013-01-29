@@ -116,8 +116,8 @@ public class BasesFragment extends Fragment {
         username.setText(player.getName());
         supplyPoints.setText(Formater.number(player.getSupplyPoint().getValue()) + " / " + player.getSupplyPoint().getMax());
         combatPoints.setText(Formater.number(player.getCombatPoint().getValue()) + " / " + player.getCombatPoint().getMax());
-        creditPoints.setText(Formater.number(player.getCredits().getValue()));
-        researchPoints.setText(Formater.number(player.getResearchPoint()));
+        creditPoints.setText(Formater.resource(player.getCredits().getValue()));
+        researchPoints.setText(Formater.resource(player.getResearchPoint()));
         rank.setText(Formater.number(player.getRating()));
 
         bases.addAll(client.getCities().values());

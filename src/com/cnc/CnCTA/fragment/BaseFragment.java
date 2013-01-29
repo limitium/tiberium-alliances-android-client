@@ -1,5 +1,6 @@
 package com.cnc.CnCTA.fragment;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.cnc.model.base.Building;
 import com.cnc.model.base.BuildingType;
 import com.cnc.model.base.City;
 import com.cnc.model.base.ResourceFieldType;
+import com.cnc.model.resources.CityResource;
 import com.cnc.model.resources.CityResourceType;
 
 import java.util.*;
@@ -68,12 +70,17 @@ public class BaseFragment extends Fragment {
         TextView buildingLimit = (TextView) view.findViewById(R.id.building_limit);
 
         name.setText(city.getName());
-        tiberium.setText(String.valueOf(city.getResource(CityResourceType.TIBERIUM).getValue()));
-        crystal.setText(String.valueOf(city.getResource(CityResourceType.CRYSTAL).getValue()));
-        power.setText(String.valueOf(city.getResource(CityResourceType.POWER).getValue()));
-        credit.setText(String.valueOf(city.getResource(CityResourceType.CREDITS).getValue()));
+
+        setResource(tiberium, CityResourceType.TIBERIUM);
+        setResource(crystal, CityResourceType.CRYSTAL);
+        setResource(power, CityResourceType.POWER);
+
+        credit.setText(Formater.resource(city.getResource(CityResourceType.CREDITS).getValue()));
+
         level.setText(Formater.number(city.getLevel()));
+
         buildingLimit.setText(city.getBuildings().size() - 1 + "/" + city.getBuildingLimit());
+        warnText(buildingLimit, city.getBuildings().size() - 1 >= city.getBuildingLimit());
 
         buildings.clear();
         buildings.addAll(Arrays.asList(new Building[9 * 8]));
@@ -87,6 +94,21 @@ public class BaseFragment extends Fragment {
         buildingsGrid.setAdapter(buildingAdapter);
         updateGridMargins();
         return view;
+    }
+
+    private void setResource(TextView textView, CityResourceType cityResourceType) {
+        CityResource resource = city.getResource(cityResourceType);
+        int value = resource.getValue();
+        textView.setText(Formater.resource(value));
+        warnText(textView, value >= resource.getMax());
+    }
+
+    private void warnText(TextView textView, boolean isWarn) {
+        if (isWarn) {
+            textView.setTextColor(Color.RED);
+        } else {
+            textView.setTextColor(Color.WHITE);
+        }
     }
 
     public void updateGridMargins() {
